@@ -1,2 +1,2 @@
 # HyperFLEX
-Framework for Virtualization of SDN Environments, In Development
+Framework for Virtualization of SDN Environments, in development - test
