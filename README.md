@@ -8,16 +8,16 @@ Current Version - 1.0 Beta Release (26. June 2017).
 
 HyperFlex splits the SDN hypervisor into functions, that could be hosted by servers or SDN network elements. The main goal is to provide an adaptable SDN hypervisor layer, with respect to the requirements of the virtual SDN (vSDN) tenants, state of the SDN physical infrastructure and the resources to host the hypervisor layer. 
 
-HyperFLEX framwork relies on external hypervisor (e.g. flowvisor), and additionaly it provides additional features:
+HyperFLEX framework relies on external hypervisor (e.g. flowvisor), and additionaly it provides additional features:
 
 * **Management System** - Every tenant is able to request a virtual network with specific network parameters, while the infrastructure provider can overlook the whole system.
 * **Monitoring Agents** - Most important resources, such as Hypervisor CPU, control plane delay and loss are monitored at all times. 
 * **Software & Hardware CPU Isolation of Control Plane** - Tenant is allowed to used only the amount of resources he requested.
 * **Admission Control** - If there are no available resources, the request for a new virtual network will be rejected.
 
-Configuration of the example set-up and installation of HyperFLEX can be found in the file [INSTALLATION.md](https://github.com/tum-lkn/HyperFLEX/blob/master/INSTALLATION.md), and tutorial for using HyperFLEX and HyperFLEX GUI can be found in the file [TUTORIAL.md](https://github.com/tum-lkn/HyperFLEX/blob/master/TUTORIAL.md). List of version and details about them are stored in [RELEASE-NOTES.txt](https://github.com/tum-lkn/HyperFLEX/blob/master/RELEASE-NOTES.txt).
+Configuration of the example set-up and installation of HyperFLEX can be found in the file [INSTALLATION](https://github.com/tum-lkn/HyperFLEX/blob/master/INSTALLATION.md), and tutorial for using HyperFLEX and HyperFLEX GUI can be found in the file [TUTORIAL](https://github.com/tum-lkn/HyperFLEX/blob/master/TUTORIAL.md). List of version and details about them are stored in [RELEASE-NOTES](https://github.com/tum-lkn/HyperFLEX/blob/master/RELEASE-NOTES.txt).
 
-Collection of HyperFLEX related publications can be found at [PUBLICATIONS.txt](https://github.com/tum-lkn/HyperFLEX/blob/master/PUBLICATIONS.txt).
+Collection of HyperFLEX related publications can be found at [PUBLICATIONS](https://github.com/tum-lkn/HyperFLEX/blob/master/PUBLICATIONS.md).
 
 # Project and Code Structure
 
