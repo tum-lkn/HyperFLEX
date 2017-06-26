@@ -15,9 +15,9 @@ HyperFLEX framwork relies on external hypervisor (e.g. flowvisor), and additiona
 * **Software & Hardware CPU Isolation of Control Plane** - Tenant is allowed to used only the amount of resources he requested.
 * **Admission Control** - If there are no available resources, the request for a new virtual network will be rejected.
 
-Configuration of the example set-up and installation of HyperFLEX can be found in the file [INSTALLATION.md](https://github.com/tum-lkn/HyperFLEX/INSTALLATION.md), and tutorial for using HyperFLEX and HyperFLEX GUI can be found in the file [TUTORIAL.md](https://github.com/tum-lkn/HyperFLEX/TUTORIAL.md). List of version and details about them are stored in [RELEASE-NOTES.md](https://github.com/tum-lkn/HyperFLEX/RELEASE-NOTES.md).
+Configuration of the example set-up and installation of HyperFLEX can be found in the file [INSTALLATION.md](https://github.com/tum-lkn/HyperFLEX/blob/master/INSTALLATION.md), and tutorial for using HyperFLEX and HyperFLEX GUI can be found in the file [TUTORIAL.md](https://github.com/tum-lkn/HyperFLEX/blob/master/TUTORIAL.md). List of version and details about them are stored in [RELEASE-NOTES.txt](https://github.com/tum-lkn/blob/master/HyperFLEX/RELEASE-NOTES.txt).
 
-Collection of HyperFLEX related publications can be found at [PUBLICATIONS.txt](https://github.com/tum-lkn/HyperFLEX/PUBLICATIONS.txt).
+Collection of HyperFLEX related publications can be found at [PUBLICATIONS.txt](https://github.com/tum-lkn/blobl/master/HyperFLEX/PUBLICATIONS.txt).
 
 # Project and Code Structure
 

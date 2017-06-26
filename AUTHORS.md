@@ -1,4 +1,4 @@
-#Authors
+# Authors
 
 Following people, have authored or contributed to the HyperFLEX project, in alphabetical order:
 
