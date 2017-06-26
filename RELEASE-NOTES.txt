@@ -1,0 +1,16 @@
+HyperFLEX RELEASE NOTES:
+
+**[HF-10] - 1.0 Beta Release (26. June 2017) 
+	- Disclaimer:
+	        - CPU allocation is not automatic and depends on the measured PC. 
+		- Following fields are currently not used:
+			- In Tenent View:
+				- Node Info: Name, Ports, vSDN, CPU.
+				- Edge Info: VSDN, Connected, Bandwidth.
+			- In Monitoring View: 
+				- Latency,Loss, Start/Kill Perfbench.
+			- In Infrastructure view:
+				- Only Receive Topology and Receive VSDNs are used.
+		- Future Features currently in development:
+			- Data Plane Isolation.
+**[HF-1x] - In Development
