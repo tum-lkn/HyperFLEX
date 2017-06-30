@@ -52,14 +52,17 @@ sudo pip install docopt
 
 You will also need to install [nanomsg](https://github.com/nanomsg/nanomsg) from source, as well as `sudo pip install nanomsg`.
 
-Before starting up, import a MySQL database "database_clean.sql". Also, add an mysql user "user" without a password and enable the external access to the databases.   
+Pull [HyperFLEX](https://github.com/tum-lkn/HyperFLEX) from git.
+
+
+Add an mysql user "user" without a password and enable the external access to the databases. Then, import a MySQL database "database/database_clean.sql"   
 
 Add one bridged interface to the VM with a static IP of 10.162.149.124/16.
 
 HyperFLEX framework now can be run as:
 
 ```
-cd hyperflexcomplete/hyperflexcore
+cd HyperFLEX/hyperflexcomplete/hyperflexcore
 python -m hypeflecore.guicontroller.guicontroller
 ```
 
@@ -69,10 +72,11 @@ Install dependancies:
 ```
 sudo apt-get install python-pip python-dev build-essential libtool
 sudo pip install json-rpc
+sudo apt-get install python-psutil
 ```
 You will also need to install [nanomsg](https://github.com/nanomsg/nanomsg) from source, and `sudo pip install nanomsg`. 
 
-As well as [flowvisor](https://github.com/opennetworkinglab/flowvisor) and pull hypeflexcore.
+As well as [flowvisor](https://github.com/OPENNETWORKINGLAB/flowvisor/wiki/Installation-from-Binary) and pull [HyperFLEX](https://github.com/tum-lkn/HyperFLEX).
 
 Add one internal interface 'mn-hv' to the mininet with ip 192.168.125.20/24 and two bridged, one for control plane traffic and one for management as:
 
@@ -83,19 +87,17 @@ Add one internal interface 'mn-hv' to the mininet with ip 192.168.125.20/24 and 
     * up route add -net 192.168.50.0/24 eth3
     * up route add -net 192.168.75.0/24 eth3  
 
-Or just use our VM image:.  
-
 Run flowvisor (i.e. `sudo -u flowvisor flowvisor`), and run the monitoring agent:
 ```
-python (your path)/hyperflexcore/hyperflexcore/data/livedata.py --sufix=1
+python HyperFLEX/hyperflexcomplete/hyperflexcore/hyperflexcore/data/livedata.py --sufix=1
 ```
 ### Setup of Emulated Data topology - VM3
 
 Install [mininet](http://mininet.org/) and pull data_topo_scripts/datatopo.py.
 
-Add to VM1 one internal interface 'mn-hv' and set up a static ip 192.168.125.21/24 and run the topo as:
+Add to VM1 one internal interface (this interface is used for a connection to the hypervisor) 'mn-hv' and set up a static ip 192.168.125.21/24 and run the topo as:
 ```
-sudo -mn --controller=remote,ip=192.168.125.20,port=6633 --custom /datatopo.py --topo datatopo
+sudo -mn --controller=remote,ip=192.168.125.20,port=6633 --custom HyperFLEX/topologies/datatopo.py --topo datatopo
 ```  
 
 
