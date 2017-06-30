@@ -169,9 +169,9 @@ class FlowVisorStub(HypervisorStub):
         self._url = 'https://{}:{}'.format(self._ip, self._port)
         #ssl._DEFAULT_CIPHERS += 'HIGH:!DH:!aNULL'
         #ssl._DEFAULT_CIPHERS += 'RSA+3DES'
-        ctx = ssl.create_default_context()
-        ctx.check_hostname = False
-        ctx.verify_mode = ssl.CERT_NONE
+        #ctx = ssl.create_default_context()
+        #ctx.check_hostname = False
+        #ctx.verify_mode = ssl.CERT_NONE
 
         passman = urllib2.HTTPPasswordMgrWithDefaultRealm()
         passman.add_password(
@@ -182,7 +182,8 @@ class FlowVisorStub(HypervisorStub):
                 )
         #print 'url is '+self._url+'user is '+self._user+' password is '+str(self._password)
         authhandler = urllib2.HTTPBasicAuthHandler(passman)
-        self._opener = urllib2.build_opener(authhandler,urllib2.HTTPSHandler(context=ctx))
+        #self._opener = urllib2.build_opener(authhandler,urllib2.HTTPSHandler(context=ctx))
+        self._opener = urllib2.build_opener(authhandler)
         self._logger = logging.getLogger('FlowVisorStub')
         self._logger.setLevel(logging.DEBUG)
 
