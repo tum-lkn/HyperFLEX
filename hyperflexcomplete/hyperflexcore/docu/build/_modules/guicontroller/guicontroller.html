@@ -1,0 +1,360 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>guicontroller.guicontroller &mdash; HyperFLEX Core 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="HyperFLEX Core 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">HyperFLEX Core 0.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for guicontroller.guicontroller</h1><div class="highlight"><pre>
+<span class="c">#!/bin/python</span>
+<span class="sd">&quot;&quot;&quot; Implements different GUIController to handle different types of GUIs</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">slash_idx</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">slash_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">slash_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="kn">import</span> <span class="nn">config</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">intelligence.guihandling</span>
+
+<span class="kn">from</span> <span class="nn">werkzeug.wrappers</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
+<span class="kn">from</span> <span class="nn">werkzeug.serving</span> <span class="kn">import</span> <span class="n">run_simple</span>
+
+<span class="kn">from</span> <span class="nn">jsonrpc</span> <span class="kn">import</span> <span class="n">JSONRPCResponseManager</span><span class="p">,</span> <span class="n">dispatcher</span>
+
+<div class="viewcode-block" id="HyperFlexHandler"><a class="viewcode-back" href="../../guicontroller.html#guicontroller.guicontroller.HyperFlexHandler">[docs]</a><span class="k">class</span> <span class="nc">HyperFlexHandler</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_align_key_names_for_hyperflexgui</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dic</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Renames keys in dictionary as expected by GUI</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                dic (Dcitionary): Return value from HyperFLEX intelligence</span>
+<span class="sd">                    or dicionary passed by GUI</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">copy</span> <span class="o">=</span> <span class="n">dic</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">ignore</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="nb">list</span> <span class="ow">in</span> <span class="n">dic</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">dict</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">e</span><span class="o">.</span><span class="n">iterkeys</span><span class="p">():</span>
+                            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;from&#39;</span><span class="p">:</span>
+                                <span class="n">item</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                                <span class="n">copy</span><span class="p">[</span><span class="s">&#39;from_node&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+                            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;to&#39;</span><span class="p">:</span>
+                                <span class="n">item</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                                <span class="n">copy</span><span class="p">[</span><span class="s">&#39;to_node&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+                            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;from_node&#39;</span><span class="p">:</span>
+                                <span class="n">item</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                                <span class="n">copy</span><span class="p">[</span><span class="s">&#39;from&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+                            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;to_node&#39;</span><span class="p">:</span>
+                                <span class="n">item</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                                <span class="n">copy</span><span class="p">[</span><span class="s">&#39;to&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+                            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;fromPort&#39;</span><span class="p">:</span>
+                                <span class="n">item</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                                <span class="n">copy</span><span class="p">[</span><span class="s">&#39;from_port&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+                            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;toPort&#39;</span><span class="p">:</span>
+                                <span class="n">item</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                                <span class="n">copy</span><span class="p">[</span><span class="s">&#39;to_port&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+                            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;from_port&#39;</span><span class="p">:</span>
+                                <span class="n">item</span> <span class="o">=</span> <span class="n">copy</span><span class="p">[</span><span class="s">&#39;from_port&#39;</span><span class="p">]</span>
+                                <span class="n">copy</span><span class="p">[</span><span class="s">&#39;fromPort&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+                            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;to_port&#39;</span><span class="p">:</span>
+                                <span class="n">item</span> <span class="o">=</span> <span class="n">copy</span><span class="p">[</span><span class="s">&#39;to_port&#39;</span><span class="p">]</span>
+                                <span class="n">copy</span><span class="p">[</span><span class="s">&#39;toPort&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+                            <span class="c">#elif key == &#39;name&#39;:</span>
+                            <span class="c">#    item = copy.pop(&#39;name&#39;)</span>
+                            <span class="c">#    copy[&#39;label&#39;] = item</span>
+                            <span class="c">#elif key == &#39;label&#39;</span>
+                            <span class="c">#    item = copy.pop[&#39;label&#39;]</span>
+                            <span class="c">#    copy[&#39;name&#39;] = item</span>
+        <span class="k">return</span> <span class="n">copy</span>
+
+    <span class="k">def</span> <span class="nf">get_vsdn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vsdn_id</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Retuns VSDN `vsdn_id`. Contains all hosts, controller and logical</span>
+<span class="sd">            links defined by the tenant. Does NOT include any physical switches</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                vsdn_id (int): Identifier of an VSDN network</span>
+<span class="sd">                user (int): Identifier of entity (tenant, admin,...) requesting</span>
+<span class="sd">                    topology (1 for admin)</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                message (JSON serialized Dictionary): Has the following members:</span>
+<span class="sd">                    error (String): Set if error occured. Contains error message</span>
+<span class="sd">                    id (int): ID of request</span>
+<span class="sd">                    data (String): JSON serialized network topology</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handler</span> <span class="o">=</span> <span class="n">intelligence</span><span class="o">.</span><span class="n">guihandling</span><span class="o">.</span><span class="n">ManagementGuiControllerHandler</span><span class="p">()</span>
+        <span class="n">dic</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">get_vsdn_topo</span><span class="p">(</span><span class="n">vsdn_id</span><span class="p">)</span>
+        <span class="n">dic</span> <span class="o">=</span> <span class="n">_align_key_names_for_hyperflexgui</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+
+<div class="viewcode-block" id="HyperFlexHandler.get_all_vsdn"><a class="viewcode-back" href="../../guicontroller.html#guicontroller.guicontroller.HyperFlexHandler.get_all_vsdn">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_vsdn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns all VSDNs belonging to `user` (tenant, admin, ...). For each</span>
+<span class="sd">            VSDN returns Hosts, Controller and logical links. Does NOT return</span>
+<span class="sd">            any physical switches</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                user (int): Identifier of an entity (tenant, admin, ...) whose</span>
+<span class="sd">                    networks (or the networks they are allowed to see) should</span>
+<span class="sd">                    be retrieved (1 for admin).</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                message (JSON serialized Dictionary): Has the following members:</span>
+<span class="sd">                    error (String): Set if error occured. Contains error message</span>
+<span class="sd">                    id (int): ID of request</span>
+<span class="sd">                    data (List): List of JSON serialized network topologies (see</span>
+<span class="sd">                        `wiki &lt;https://wiki.lkn.ei.tum.de/intern:lkn:all:\</span>
+<span class="sd">                        students:henkel2:hyperflex_centralized#dynamic_topology`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">user_id</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">user_id</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">handler</span> <span class="o">=</span> <span class="n">intelligence</span><span class="o">.</span><span class="n">guihandling</span><span class="o">.</span><span class="n">ManagementGuiControllerHandler</span><span class="p">()</span>
+        <span class="n">dic</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">get_all_vsdn_topo</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span>
+        <span class="n">dic</span> <span class="o">=</span> <span class="n">_align_key_names_for_hyperflexgui</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="HyperFlexHandler.update_vsdn"><a class="viewcode-back" href="../../guicontroller.html#guicontroller.guicontroller.HyperFlexHandler.update_vsdn">[docs]</a>    <span class="k">def</span> <span class="nf">update_vsdn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">updates</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Altering VSDN (adding/removing hosts, controller, logical links)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            updates (String): JSON serialized list of dictionaries</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            {</span>
+<span class="sd">                &#39;vsdn_id&#39;: &lt;id&gt;,</span>
+<span class="sd">                &#39;nodes&#39;: [</span>
+<span class="sd">                    {</span>
+<span class="sd">                        &#39;type&#39;: &quot;host&quot;,</span>
+<span class="sd">                        &#39;id&#39;: &lt;id&gt;,</span>
+<span class="sd">                        &#39;label&#39;: &lt;name&gt;,</span>
+<span class="sd">                        &#39;action&#39;: (add|remove)</span>
+<span class="sd">                    }, {</span>
+<span class="sd">                        &#39;type&#39;: &quot;controller&quot;,</span>
+<span class="sd">                        &#39;label&#39;: &lt;name&gt;,</span>
+<span class="sd">                        &#39;location&#39;: &lt;location&gt;,</span>
+<span class="sd">                        &#39;ip&#39;: &lt;ip&gt;,</span>
+<span class="sd">                        &#39;ip_port&#39;: &lt;ip_port&gt;,</span>
+<span class="sd">                        &#39;action&#39;: (add|remove)</span>
+<span class="sd">                    }</span>
+<span class="sd">                    ...</span>
+<span class="sd">                ]</span>
+<span class="sd">                &#39;edges: [</span>
+<span class="sd">                    {</span>
+<span class="sd">                        &quot;from_node&quot;: &lt;id&gt;,</span>
+<span class="sd">                        &quot;to_node&quot;: &lt;id&gt;</span>
+<span class="sd">                        &quot;action&quot;: (add|remove)</span>
+<span class="sd">                    },</span>
+<span class="sd">                    ...</span>
+<span class="sd">                ]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">deserialized_updates</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">updates</span><span class="p">)</span>
+        <span class="n">dic</span> <span class="o">=</span> <span class="n">_align_key_names_for_hyperflexgui</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">gh</span> <span class="o">=</span> <span class="n">intelligence</span><span class="o">.</span><span class="n">guihandling</span><span class="o">.</span><span class="n">ManagementGuiControllerHandler</span><span class="p">()</span>
+            <span class="n">gh</span><span class="o">.</span><span class="n">process_network_change_request</span><span class="p">(</span><span class="n">deserialized_updates</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">message</span><span class="p">[</span><span class="s">&#39;error&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">message</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">message</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="HyperFlexHandler.get_physical_topo"><a class="viewcode-back" href="../../guicontroller.html#guicontroller.guicontroller.HyperFlexHandler.get_physical_topo">[docs]</a>    <span class="k">def</span> <span class="nf">get_physical_topo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_type</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns physical topology based on `user`. If `user` is a tenant,</span>
+<span class="sd">            physical ressources allocated for tenant&#39;s infrastructure are</span>
+<span class="sd">            returned.</span>
+<span class="sd">            If `user` is admin whole physical infrastructure (inluding</span>
+<span class="sd">            hypervisor) is returned.</span>
+<span class="sd">            Physical topology means switches and links between them.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                user (int): Identifier of user (1 for admin)</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                topology (JSON serialized List): List of Dictionaries</span>
+
+<span class="sd">            Example:</span>
+<span class="sd">                {</span>
+<span class="sd">                    vsdn_id: &lt;id&gt;,</span>
+<span class="sd">                    nodes: [</span>
+<span class="sd">                        {</span>
+<span class="sd">                            &#39;id&#39;: &lt;id&gt;,</span>
+<span class="sd">                            &#39;type&#39;: &#39;switch&#39;,</span>
+<span class="sd">                            &#39;name&#39;: &lt;name&gt;,</span>
+<span class="sd">                            &#39;dpid&#39;: &lt;dpid&gt;,</span>
+<span class="sd">                            &#39;ip&#39;: &lt;ip&gt;,</span>
+<span class="sd">                            &#39;ip_port&#39;: &lt;ip_port&gt;,</span>
+<span class="sd">                            &#39;num_ports&#39;: &lt;num_ports&gt;,</span>
+<span class="sd">                            &#39;cplane&#39;: &lt;True/False&gt;</span>
+<span class="sd">                        }</span>
+<span class="sd">                        ...</span>
+<span class="sd">                    ]</span>
+<span class="sd">                    edges: [</span>
+<span class="sd">                        {</span>
+<span class="sd">                            &#39;from_node&#39;: &lt;id&gt;,</span>
+<span class="sd">                            &#39;from_port&#39;: &lt;port&gt;,</span>
+<span class="sd">                            &#39;to_node&#39;: &lt;id&gt;,</span>
+<span class="sd">                            &#39;to_port&#39;: &lt;id&gt;</span>
+<span class="sd">                        },</span>
+<span class="sd">                        ...</span>
+<span class="sd">                    ]</span>
+<span class="sd">                }</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handler</span> <span class="o">=</span> <span class="n">intelligence</span><span class="o">.</span><span class="n">guihandling</span><span class="o">.</span><span class="n">ManagementGuiControllerHandler</span><span class="p">()</span>
+        <span class="n">dic</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">get_physical_topo</span><span class="p">()</span>
+        <span class="n">dic</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_align_key_names_for_hyperflexgui</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">user_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;hypervisor&#39;</span><span class="p">,</span> <span class="s">&#39;admin&#39;</span><span class="p">]:</span>
+            <span class="n">hypervisor</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">get_hypervisor_context</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">hypervisor</span><span class="p">:</span>
+                <span class="n">dic</span><span class="p">[</span><span class="s">&#39;nodes&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                    <span class="s">&#39;id&#39;</span><span class="p">:</span> <span class="n">h</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">],</span>
+                    <span class="s">&#39;label&#39;</span><span class="p">:</span> <span class="n">h</span><span class="p">[</span><span class="s">&#39;label&#39;</span><span class="p">],</span>
+                    <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="n">h</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">],</span>
+                    <span class="s">&#39;ip&#39;</span><span class="p">:</span> <span class="n">h</span><span class="p">[</span><span class="s">&#39;ip&#39;</span><span class="p">]</span>
+                    <span class="p">})</span>
+            <span class="n">dic</span><span class="p">[</span><span class="s">&#39;edges&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="HyperFlexHandler.get_vsdn"><a class="viewcode-back" href="../../guicontroller.html#guicontroller.guicontroller.HyperFlexHandler.get_vsdn">[docs]</a>    <span class="k">def</span> <span class="nf">get_vsdn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vsdn_id</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Retuns VSDN `vsdn_id`. Contains all hosts, controller and logical</span>
+<span class="sd">            links defined by the tenant. Does NOT include any physical switches</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                vsdn_id (int): Identifier of an VSDN network</span>
+<span class="sd">                user (int): Identifier of entity (tenant, admin,...) requesting</span>
+<span class="sd">                    topology (1 for admin)</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                message (JSON serialized Dictionary): Has the following members:</span>
+<span class="sd">                    error (String): Set if error occured. Contains error message</span>
+<span class="sd">                    id (int): ID of request</span>
+<span class="sd">                    data (String): JSON serialized network topology</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handler</span> <span class="o">=</span> <span class="n">intelligence</span><span class="o">.</span><span class="n">guihandling</span><span class="o">.</span><span class="n">ManagementGuiControllerHandler</span><span class="p">()</span>
+        <span class="n">dic</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">get_vsdn_topo</span><span class="p">(</span><span class="n">vsdn_id</span><span class="p">)</span>
+        <span class="n">dic</span> <span class="o">=</span> <span class="n">_align_key_names_for_hyperflexgui</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="JsonRpcServer"><a class="viewcode-back" href="../../guicontroller.html#guicontroller.guicontroller.JsonRpcServer">[docs]</a><span class="k">class</span> <span class="nc">JsonRpcServer</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
+
+    <span class="nd">@Request.application</span>
+<div class="viewcode-block" id="JsonRpcServer.application"><a class="viewcode-back" href="../../guicontroller.html#guicontroller.guicontroller.JsonRpcServer.application">[docs]</a>    <span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="n">dispatcher</span><span class="o">.</span><span class="n">add_class</span><span class="p">(</span><span class="n">HyperFlexHandler</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">JSONRPCResponseManager</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dispatcher</span><span class="p">)</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="n">Headers</span><span class="p">()</span>
+        <span class="n">headers</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&#39;Access-Control-Allow-Origin&#39;</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">)</span>
+        <span class="n">headers</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&#39;Access-Control-Allow-Headers&#39;</span><span class="p">,</span> <span class="s">&#39;Content-Type&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">,</span> <span class="n">mimetype</span><span class="o">=</span><span class="s">&#39;application/json&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="JsonRpcServer.start_server"><a class="viewcode-back" href="../../guicontroller.html#guicontroller.guicontroller.JsonRpcServer.start_server">[docs]</a>    <span class="k">def</span> <span class="nf">start_server</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Start server and listen for requests</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">run_simple</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="p">[</span><span class="s">&#39;request_receiver_ip&#39;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="p">[</span><span class="s">&#39;request_receiver_port&#39;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">application</span>
+                <span class="p">)</span>
+
+</div></div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">JsonRpcServer</span><span class="p">()</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">start_server</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Patrick Kalmbach.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

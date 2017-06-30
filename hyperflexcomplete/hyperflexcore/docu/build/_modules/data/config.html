@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>data.config &mdash; HyperFLEX Core 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="HyperFLEX Core 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">HyperFLEX Core 0.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for data.config</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot; Defines configurational stuff for other modules in this package</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="get_config_hyperflex_topo_simple"><a class="viewcode-back" href="../../data.html#data.config.get_config_hyperflex_topo_simple">[docs]</a><span class="k">def</span> <span class="nf">get_config_hyperflex_topo_simple</span><span class="p">():</span>
+    <span class="n">hyperflex_topo_simple</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">hyperflex_topo_simple</span><span class="p">[</span><span class="s">&#39;ip&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;localhost&#39;</span>
+    <span class="n">hyperflex_topo_simple</span><span class="p">[</span><span class="s">&#39;port&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;3306&#39;</span>
+    <span class="n">hyperflex_topo_simple</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;root&#39;</span>
+    <span class="n">hyperflex_topo_simple</span><span class="p">[</span><span class="s">&#39;password&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;root&#39;</span>
+
+    <span class="n">hyperflex_topo_simple</span><span class="p">[</span><span class="s">&#39;schema_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;HyperFlexTopologySimple&#39;</span>
+    <span class="n">hyperflex_topo_simple</span><span class="p">[</span><span class="s">&#39;tbl_host&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;NetworkNode&#39;</span>
+    <span class="n">hyperflex_topo_simple</span><span class="p">[</span><span class="s">&#39;tbl_link&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;Link&#39;</span>
+    <span class="n">hyperflex_topo_simple</span><span class="p">[</span><span class="s">&#39;tbl_network_node&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;NetworkNode&#39;</span>
+    <span class="n">hyperflex_topo_simple</span><span class="p">[</span><span class="s">&#39;tbl_switch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;NetworkNode&#39;</span>
+    <span class="n">hyperflex_topo_simple</span><span class="p">[</span><span class="s">&#39;tbl_vsdn&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;Vsdn&#39;</span>
+
+    <span class="k">return</span> <span class="n">hyperflex_topo_simple</span>
+</div>
+<div class="viewcode-block" id="get_config_hyperflex_topo"><a class="viewcode-back" href="../../data.html#data.config.get_config_hyperflex_topo">[docs]</a><span class="k">def</span> <span class="nf">get_config_hyperflex_topo</span><span class="p">():</span>
+    <span class="n">hyperflex_topo</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">hyperflex_topo</span><span class="p">[</span><span class="s">&#39;ip&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;localhost&#39;</span>
+    <span class="n">hyperflex_topo</span><span class="p">[</span><span class="s">&#39;port&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;3306&#39;</span>
+    <span class="n">hyperflex_topo</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;root&#39;</span>
+    <span class="n">hyperflex_topo</span><span class="p">[</span><span class="s">&#39;password&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;root&#39;</span>
+
+    <span class="n">hyperflex_topo</span><span class="p">[</span><span class="s">&#39;schema_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;HyperFlexTopology&#39;</span>
+    <span class="n">hyperflex_topo</span><span class="p">[</span><span class="s">&#39;switch_info_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">hyperflex_topo</span><span class="p">[</span><span class="s">&#39;host_info_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">hyperflex_topo</span><span class="p">[</span><span class="s">&#39;controller_info_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="k">return</span> <span class="n">hyperflex_topo</span>
+</div>
+<div class="viewcode-block" id="get_default_controller_port"><a class="viewcode-back" href="../../data.html#data.config.get_default_controller_port">[docs]</a><span class="k">def</span> <span class="nf">get_default_controller_port</span><span class="p">():</span>
+    <span class="k">return</span> <span class="mi">9000</span>
+</div>
+<div class="viewcode-block" id="default_switch_ip_prefix"><a class="viewcode-back" href="../../data.html#data.config.default_switch_ip_prefix">[docs]</a><span class="k">def</span> <span class="nf">default_switch_ip_prefix</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s">&#39;192.168.0.&#39;</span>
+</div>
+<div class="viewcode-block" id="default_switch_ip_port"><a class="viewcode-back" href="../../data.html#data.config.default_switch_ip_port">[docs]</a><span class="k">def</span> <span class="nf">default_switch_ip_port</span><span class="p">():</span>
+    <span class="k">return</span> <span class="mi">9100</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Patrick Kalmbach.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

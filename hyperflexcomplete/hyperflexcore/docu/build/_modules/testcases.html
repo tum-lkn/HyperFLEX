@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>testcases &mdash; HyperFLEX Core 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="HyperFLEX Core 0.1 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">HyperFLEX Core 0.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for testcases</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot; Implements unittests for testing functionality of different components</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">guicontroller.guiclient</span> <span class="kn">as</span> <span class="nn">guiclient</span>
+<span class="kn">import</span> <span class="nn">guicontroller.guicontroller</span> <span class="kn">as</span> <span class="nn">guictrl</span>
+<span class="kn">import</span> <span class="nn">intelligence.guihandling</span> <span class="kn">as</span> <span class="nn">gh</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">guicontroller.config</span> <span class="kn">as</span> <span class="nn">guiconfig</span>
+
+<span class="kn">import</span> <span class="nn">data.dbinterfaces</span> <span class="kn">as</span> <span class="nn">data</span>
+
+<div class="viewcode-block" id="storm_test"><a class="viewcode-back" href="../testcases.html#testcases.storm_test">[docs]</a><span class="k">def</span> <span class="nf">storm_test</span><span class="p">():</span>
+<span class="c">#    tenant = data.Tenant(u&#39;tenant1&#39;)</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">StormConnector</span><span class="p">()</span>
+    <span class="k">print</span> <span class="n">data</span><span class="o">.</span><span class="n">SwitchToVsdn</span><span class="o">.</span><span class="n">__storm_table__</span>
+    <span class="k">print</span> <span class="n">data</span><span class="o">.</span><span class="n">LogicalEdgeEmbedding</span><span class="o">.</span><span class="n">__storm_table__</span>
+    <span class="k">print</span> <span class="n">data</span><span class="o">.</span><span class="n">PhysicalPort</span><span class="o">.</span><span class="n">__storm_table__</span>
+    <span class="k">print</span> <span class="n">data</span><span class="o">.</span><span class="n">NetworkNode</span><span class="o">.</span><span class="n">__storm_table__</span>
+    <span class="k">print</span> <span class="n">data</span><span class="o">.</span><span class="n">PhysicalSwitch</span><span class="o">.</span><span class="n">__storm_table__</span>
+    <span class="k">print</span> <span class="n">data</span><span class="o">.</span><span class="n">Host</span><span class="o">.</span><span class="n">__storm_table__</span>
+    <span class="k">print</span> <span class="n">data</span><span class="o">.</span><span class="n">Controller</span><span class="o">.</span><span class="n">__storm_table__</span>
+    <span class="k">print</span> <span class="n">data</span><span class="o">.</span><span class="n">PhysicalEdge</span><span class="o">.</span><span class="n">__storm_table__</span>
+    <span class="k">print</span> <span class="n">data</span><span class="o">.</span><span class="n">LogicalEdge</span><span class="o">.</span><span class="n">__storm_table__</span>
+    <span class="k">print</span> <span class="n">data</span><span class="o">.</span><span class="n">Vsdn</span><span class="o">.</span><span class="n">__storm_table__</span>
+    <span class="k">print</span> <span class="n">data</span><span class="o">.</span><span class="n">Tenant</span><span class="o">.</span><span class="n">__storm_table__</span>
+<span class="c">#    conn.Store.add(tenant)</span>
+<span class="c">#    conn.Store.commit()</span>
+<span class="c">#    tenant = conn._store.get(data.PhysicalSwitch, 1)</span>
+    <span class="n">tenant</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">get_network_nodes</span><span class="p">([</span><span class="n">data</span><span class="o">.</span><span class="n">PhysicalSwitch</span><span class="p">])</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+
+    <span class="k">print</span> <span class="n">tenant</span>
+    <span class="k">print</span> <span class="n">tenant</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">dpid</span>
+
+    <span class="n">tenant</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">_store</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">Tenant</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">tenant</span><span class="o">.</span><span class="n">vsdns</span>
+    <span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">tenant</span><span class="o">.</span><span class="n">vsdns</span><span class="o">.</span><span class="n">any</span><span class="p">()</span><span class="o">.</span><span class="n">get_physical_switches</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">_store</span><span class="p">):</span>
+        <span class="k">print</span> <span class="n">switch</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">print</span> <span class="n">switch</span><span class="o">.</span><span class="n">to_dictionary</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">ctrl</span> <span class="ow">in</span> <span class="n">tenant</span><span class="o">.</span><span class="n">vsdns</span><span class="o">.</span><span class="n">any</span><span class="p">()</span><span class="o">.</span><span class="n">get_controller</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">_store</span><span class="p">):</span>
+        <span class="k">print</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">print</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">location</span>
+
+    <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">tenant</span><span class="o">.</span><span class="n">vsdns</span><span class="o">.</span><span class="n">any</span><span class="p">()</span><span class="o">.</span><span class="n">get_hosts</span><span class="p">(</span><span class="n">conn</span><span class="o">.</span><span class="n">_store</span><span class="p">):</span>
+        <span class="k">print</span> <span class="n">h</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">print</span> <span class="n">h</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">vsdn_id</span>
+</div>
+<div class="viewcode-block" id="start_json_receiver"><a class="viewcode-back" href="../testcases.html#testcases.start_json_receiver">[docs]</a><span class="k">def</span> <span class="nf">start_json_receiver</span><span class="p">():</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">guictrl</span><span class="o">.</span><span class="n">RequestReceiver</span><span class="p">()</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">start_server</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="test_network_retrieval"><a class="viewcode-back" href="../testcases.html#testcases.test_network_retrieval">[docs]</a><span class="k">def</span> <span class="nf">test_network_retrieval</span><span class="p">():</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">guiconfig</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/jsonrpc&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">config</span><span class="p">[</span><span class="s">&#39;request_receiver_ip&#39;</span><span class="p">],</span>
+            <span class="n">config</span><span class="p">[</span><span class="s">&#39;request_receiver_port&#39;</span><span class="p">]</span>
+            <span class="p">)</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;content-type&#39;</span><span class="p">:</span> <span class="s">&#39;application/json&#39;</span><span class="p">}</span>
+
+    <span class="c"># Example echo method</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&quot;method&quot;</span><span class="p">:</span> <span class="s">&quot;hyperflexhandler.alter_vsdn&quot;</span><span class="p">,</span>
+        <span class="s">&quot;params&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;1&quot;</span><span class="p">],</span>
+        <span class="s">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s">&quot;2.0&quot;</span><span class="p">,</span>
+        <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">),</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="k">print</span> <span class="n">response</span>
+</div>
+<div class="viewcode-block" id="test_physical_topo_retrieval"><a class="viewcode-back" href="../testcases.html#testcases.test_physical_topo_retrieval">[docs]</a><span class="k">def</span> <span class="nf">test_physical_topo_retrieval</span><span class="p">():</span>
+    <span class="k">print</span> <span class="s">&#39;TEST PHYSICAL TOPO RETRIEVAL&#39;</span>
+    <span class="k">print</span> <span class="s">&#39;============================&#39;</span>
+
+    <span class="n">handler</span> <span class="o">=</span> <span class="n">guictrl</span><span class="o">.</span><span class="n">HyperFlexHandler</span><span class="p">()</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">get_physical_topo</span><span class="p">(</span><span class="n">user_type</span><span class="o">=</span><span class="s">&#39;admin&#39;</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">string</span>
+</div>
+<div class="viewcode-block" id="test_get_vsdn_topo"><a class="viewcode-back" href="../testcases.html#testcases.test_get_vsdn_topo">[docs]</a><span class="k">def</span> <span class="nf">test_get_vsdn_topo</span><span class="p">():</span>
+    <span class="k">print</span> <span class="s">&#39;TEST SINGLE VSDN TOPO RETRIEVAL&#39;</span>
+    <span class="k">print</span> <span class="s">&#39;===============================&#39;</span>
+
+    <span class="n">handler</span> <span class="o">=</span> <span class="n">gh</span><span class="o">.</span><span class="n">ManagementGuiControllerHandler</span><span class="p">()</span>
+    <span class="nb">list</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">get_vsdn_topo</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span><span class="n">indent</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">string</span>
+</div>
+<div class="viewcode-block" id="test_case_all_vsdn"><a class="viewcode-back" href="../testcases.html#testcases.test_case_all_vsdn">[docs]</a><span class="k">def</span> <span class="nf">test_case_all_vsdn</span><span class="p">():</span>
+    <span class="k">print</span> <span class="s">&#39;TEST CASE RETRIEVE ALL VSDN&#39;</span>
+    <span class="k">print</span> <span class="s">&#39;===========================&#39;</span>
+
+    <span class="n">handler</span> <span class="o">=</span> <span class="n">gh</span><span class="o">.</span><span class="n">ManagementGuiControllerHandler</span><span class="p">()</span>
+    <span class="nb">list</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">get_all_vsdn_topos</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">string</span>
+</div>
+<div class="viewcode-block" id="test_case_remove"><a class="viewcode-back" href="../testcases.html#testcases.test_case_remove">[docs]</a><span class="k">def</span> <span class="nf">test_case_remove</span><span class="p">():</span>
+    <span class="k">print</span> <span class="s">&#39;TEST CASE CHANGE VSDN - REMOVE&#39;</span>
+    <span class="k">print</span> <span class="s">&#39;==============================&#39;</span>
+
+    <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">u&#39;host&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;id&#39;</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span>
+                    <span class="s">&#39;label&#39;</span><span class="p">:</span> <span class="s">u&#39;host_test_insert&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;action&#39;</span><span class="p">:</span> <span class="s">u&#39;remove&#39;</span>
+                <span class="p">},</span> <span class="p">{</span>
+                    <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">u&#39;controller&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;id&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+                    <span class="s">&#39;label&#39;</span><span class="p">:</span> <span class="s">u&#39;controller_test_insert&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;action&#39;</span><span class="p">:</span> <span class="s">u&#39;remove&#39;</span>
+                <span class="p">},</span> <span class="p">{</span>
+                    <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">u&#39;switchC&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;id&#39;</span><span class="p">:</span> <span class="mi">21</span><span class="p">,</span>
+                    <span class="s">&#39;label&#39;</span><span class="p">:</span> <span class="s">u&#39;switch_test_insert&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;action&#39;</span><span class="p">:</span> <span class="s">u&#39;remove&#39;</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+    <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s">&#39;from_node&#39;</span><span class="p">:</span> <span class="s">u&#39;host_test_insert&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;to_node&#39;</span><span class="p">:</span> <span class="s">u&#39;switch_test_insert&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;action&#39;</span><span class="p">:</span> <span class="s">u&#39;remove&#39;</span>
+                <span class="p">},</span> <span class="p">{</span>
+                    <span class="s">&#39;from_node&#39;</span><span class="p">:</span> <span class="s">u&#39;controller_test_insert&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;to_node&#39;</span><span class="p">:</span> <span class="s">u&#39;switch_test_insert&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;action&#39;</span><span class="p">:</span> <span class="s">u&#39;remove&#39;</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s">&#39;vsdn_id&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;nodes&#39;</span><span class="p">:</span> <span class="n">nodes</span><span class="p">,</span> <span class="s">&#39;edges&#39;</span><span class="p">:</span> <span class="n">edges</span><span class="p">})</span>
+    <span class="n">handler</span> <span class="o">=</span> <span class="n">guictrl</span><span class="o">.</span><span class="n">HyperFlexHandler</span><span class="p">()</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">update_vsdn</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">ret</span>
+
+</div>
+<div class="viewcode-block" id="test_case_insert"><a class="viewcode-back" href="../testcases.html#testcases.test_case_insert">[docs]</a><span class="k">def</span> <span class="nf">test_case_insert</span><span class="p">():</span>
+    <span class="k">print</span> <span class="s">&#39;TEST CASE CHANGE VSDN - INSERT&#39;</span>
+    <span class="k">print</span> <span class="s">&#39;==============================&#39;</span>
+
+    <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">u&#39;host&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;id&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+                    <span class="s">&#39;label&#39;</span><span class="p">:</span> <span class="s">u&#39;host_test_insert&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;action&#39;</span><span class="p">:</span> <span class="s">u&#39;add&#39;</span>
+                <span class="p">},</span> <span class="p">{</span>
+                    <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">u&#39;controller&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;id&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+                    <span class="s">&#39;label&#39;</span><span class="p">:</span> <span class="s">u&#39;controller_test_insert&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;action&#39;</span><span class="p">:</span> <span class="s">u&#39;add&#39;</span>
+                <span class="p">},</span> <span class="p">{</span>
+                    <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">u&#39;switchC&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;id&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+                    <span class="s">&#39;label&#39;</span><span class="p">:</span> <span class="s">u&#39;switch_test_insert&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;action&#39;</span><span class="p">:</span> <span class="s">u&#39;add&#39;</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+    <span class="n">edges</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s">&#39;from_node&#39;</span><span class="p">:</span> <span class="s">u&#39;host_test_insert&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;to_node&#39;</span><span class="p">:</span> <span class="s">u&#39;switch_test_insert&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;action&#39;</span><span class="p">:</span> <span class="s">u&#39;add&#39;</span>
+                <span class="p">},</span> <span class="p">{</span>
+                    <span class="s">&#39;from_node&#39;</span><span class="p">:</span> <span class="s">u&#39;controller_test_insert&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;to_node&#39;</span><span class="p">:</span> <span class="s">u&#39;switch_test_insert&#39;</span><span class="p">,</span>
+                    <span class="s">&#39;action&#39;</span><span class="p">:</span> <span class="s">u&#39;add&#39;</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s">&#39;vsdn_id&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;nodes&#39;</span><span class="p">:</span> <span class="n">nodes</span><span class="p">,</span> <span class="s">&#39;edges&#39;</span><span class="p">:</span> <span class="n">edges</span><span class="p">})</span>
+    <span class="n">handler</span> <span class="o">=</span> <span class="n">guictrl</span><span class="o">.</span><span class="n">HyperFlexHandler</span><span class="p">()</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">update_vsdn</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">ret</span>
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">test_physical_topo_retrieval</span><span class="p">()</span>
+    <span class="c">#test_get_vsdn_topo()</span>
+    <span class="c">#test_case_all_vsdn()</span>
+    <span class="c">#test_case_insert()</span>
+    <span class="c">#test_case_remove()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Patrick Kalmbach.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

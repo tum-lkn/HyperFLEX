@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<head>
+   <meta charset="UTF-8">
+   <title>AutobahnJS PubSub Subscriber</title>
+</head>
+<html>
+   <body>
+      <h1>AutobahnJS PubSub Subscriber</h1>
+      <p>Open JavaScript console to watch output.</p>
+      <script
+         src="https://autobahn.s3.amazonaws.com/autobahnjs/latest/autobahn.min.jgz">
+      </script>
+      <script type='text/javascript'>
+        try {
+           var autobahn = require('autobahn');
+        } catch (e) {
+           // when running in browser, AutobahnJS will
+           // be included without a module system
+        }
+
+        var connection = new autobahn.Connection({
+           url: 'ws://10.162.149.178:8080/ws',
+           realm: 'realm1'}
+        );
+
+        connection.onopen = function (session) {
+
+           var received = 0;
+
+           function onevent1(args) {
+              //console.log("Got event:", args[0]);
+              par = document.getElementById('count');
+              par.innerHTML = args[0];
+              received += 1;
+              if (received > 1000000) {
+                 //console.log("Closing ..");
+                 par.innerHTML = 'closing connection';
+                 connection.close();
+              }
+           }
+
+           session.subscribe('vsdn_added', onevent1);
+        };
+
+        connection.open();
+      </script>
+   </body>
+   <p id='count'></p>
+</html>

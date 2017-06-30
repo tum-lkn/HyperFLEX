@@ -1,0 +1,396 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>intelligence.guihandling &mdash; HyperFLEX Core 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="HyperFLEX Core 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">HyperFLEX Core 0.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for intelligence.guihandling</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot; This module processes requests made by users through the gui. The main</span>
+<span class="sd">    taks of this module is to orchestrate operations (adding logical link --&gt;</span>
+<span class="sd">    get embedding --&gt; write embedding) for writing and retrieving of data</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">slash_idx</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">slash_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">slash_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+<span class="kn">import</span> <span class="nn">intelligence</span>
+<span class="kn">import</span> <span class="nn">management.management</span> <span class="kn">as</span> <span class="nn">mgmt</span>
+<span class="kn">import</span> <span class="nn">data.dbinterfaces</span> <span class="kn">as</span> <span class="nn">dbi</span>
+
+<div class="viewcode-block" id="ManagementGuiControllerHandler"><a class="viewcode-back" href="../../intelligence.html#intelligence.guihandling.ManagementGuiControllerHandler">[docs]</a><span class="k">class</span> <span class="nc">ManagementGuiControllerHandler</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Handles persisting and triggering of processes related to GUI events.</span>
+<span class="sd">        Uses `intelligence` module to identify embedding but handles persisting</span>
+<span class="sd">        of changes into the db itself.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_connector</span> <span class="o">=</span> <span class="n">dbi</span><span class="o">.</span><span class="n">StormConnector</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ManagementGuiControllerHandler.process_network_change_request"><a class="viewcode-back" href="../../intelligence.html#intelligence.guihandling.ManagementGuiControllerHandler.process_network_change_request">[docs]</a>    <span class="k">def</span> <span class="nf">process_network_change_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Handles changes to the network topology (adding links, switches,</span>
+<span class="sd">            and other elements).</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                request (Dictionary): Dictionary of Lists of Dictionaries</span>
+
+<span class="sd">            Raises:</span>
+<span class="sd">                AssertionError:</span>
+<span class="sd">                    key ``vsdn_id`` not present in request</span>
+<span class="sd">                    ``vsdn_id`` not an integer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">assert</span> <span class="s">&#39;vsdn_id&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="p">,</span> <span class="s">&#39;Field vsdn_id required for request&#39;</span>
+        <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">request</span><span class="p">[</span><span class="s">&#39;vsdn_id&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">,</span> <span class="s">&#39;VSDN ID of request not IntType&#39;</span>
+
+        <span class="n">node_removals</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">node_inserts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">edge_inserts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">edge_removals</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;nodes&#39;</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">dic</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">dic</span><span class="p">[</span><span class="s">&#39;action&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;remove&#39;</span><span class="p">:</span>
+                        <span class="n">node_removals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">dic</span><span class="p">[</span><span class="s">&#39;action&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;add&#39;</span><span class="p">:</span>
+                        <span class="n">node_inserts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;edges&#39;</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">dic</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">dic</span><span class="p">[</span><span class="s">&#39;action&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;remove&#39;</span><span class="p">:</span>
+                        <span class="n">edge_removals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">dic</span><span class="p">[</span><span class="s">&#39;action&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;add&#39;</span><span class="p">:</span>
+                        <span class="n">edge_inserts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;vsdn_id&#39;</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span>
+                    <span class="s">&#39;Unexpected keyword {}. Expected &quot;nodes&quot; or &quot;edges&quot;&#39;</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                    <span class="p">)</span>
+        <span class="n">dc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connector</span>
+        <span class="n">err</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">edge_removals</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_process_edge_removals</span><span class="p">(</span><span class="n">edge_removals</span><span class="p">,</span> <span class="n">request</span><span class="p">[</span><span class="s">&#39;vsdn_id&#39;</span><span class="p">],</span> <span class="n">dc</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">dc</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+                <span class="n">err</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">print</span> <span class="s">&#39;error 3&#39;</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&#39;Error during removal of edges. Error was: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">node_removals</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_process_node_removals</span><span class="p">(</span><span class="n">node_removals</span><span class="p">,</span> <span class="n">request</span><span class="p">[</span><span class="s">&#39;vsdn_id&#39;</span><span class="p">],</span> <span class="n">dc</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">dc</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+                <span class="n">err</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">print</span> <span class="s">&#39;error 1&#39;</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&#39;Error during removal of nodes. Error was: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">node_inserts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_process_node_inserts</span><span class="p">(</span><span class="n">node_inserts</span><span class="p">,</span> <span class="n">request</span><span class="p">[</span><span class="s">&#39;vsdn_id&#39;</span><span class="p">],</span> <span class="n">dc</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">dc</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+                <span class="n">err</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">print</span> <span class="s">&#39;error 2&#39;</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&#39;Error during inserting of nodes. Error was: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">edge_inserts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_process_edge_inserts</span><span class="p">(</span><span class="n">edge_inserts</span><span class="p">,</span> <span class="n">request</span><span class="p">[</span><span class="s">&#39;vsdn_id&#39;</span><span class="p">],</span> <span class="n">dc</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">dc</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span>
+                <span class="n">err</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">print</span> <span class="s">&#39;error 4&#39;</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&#39;Error during inserting of edges. Error was: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">err</span><span class="p">:</span>
+            <span class="n">dc</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</div>
+    <span class="k">def</span> <span class="nf">_process_node_removals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">removals</span><span class="p">,</span> <span class="n">vsdn_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Prepares removals for Database Interface</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                request (List): List of Dictionaries</span>
+<span class="sd">                vsdn_id (int): Primary Key to *Vsdn* relation</span>
+
+<span class="sd">            Raises:</span>
+<span class="sd">                ValueError: unknown value of field ``type`` encountered</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connector</span>
+        <span class="k">for</span> <span class="n">dic</span> <span class="ow">in</span> <span class="n">removals</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dic</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;switchC&#39;</span><span class="p">:</span>
+                <span class="n">dc</span><span class="o">.</span><span class="n">remove_physical_switch</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">dic</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;switchD&#39;</span><span class="p">:</span>
+                <span class="n">dc</span><span class="o">.</span><span class="n">remove_physical_switch</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">dic</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;controller&#39;</span><span class="p">:</span>
+                <span class="n">dc</span><span class="o">.</span><span class="n">remove_controller</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">],</span> <span class="n">vsdn_id</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">dic</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;hypervisor&#39;</span><span class="p">:</span>
+                <span class="n">dc</span><span class="o">.</span><span class="n">remove_hypervisor</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">dic</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;server&#39;</span><span class="p">:</span>
+                <span class="n">dc</span><span class="o">.</span><span class="n">remove_server</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">dic</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;host&#39;</span><span class="p">:</span>
+                <span class="n">dc</span><span class="o">.</span><span class="n">remove_host</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s">&#39;Error in itelligence.guihandling.ManagementGuiControllerHandler&#39;</span> <span class="o">+</span>
+                        <span class="s">&#39;Unknown type encountered while removing &#39;</span> <span class="o">+</span>
+                        <span class="s">&#39;nodes. Keyword was: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">])</span>
+                        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_process_node_inserts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inserts</span><span class="p">,</span> <span class="n">vsdn_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Processes insert requests</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                inserts (List): List of dictionaries</span>
+<span class="sd">                vsdn_id (int): Primary Key of *Vsdn* relation</span>
+
+<span class="sd">            Raises:</span>
+<span class="sd">                ValueError: Unknown value for field ``type`` encountered</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connector</span>
+        <span class="k">for</span> <span class="n">dic</span> <span class="ow">in</span> <span class="n">inserts</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dic</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;switchC&#39;</span><span class="p">:</span>
+                <span class="n">dic</span><span class="p">[</span><span class="s">&#39;cplane&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="nb">id</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">add_physical_switch</span><span class="p">(</span><span class="n">dic</span><span class="p">,</span> <span class="p">[</span><span class="n">vsdn_id</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">):</span>
+                    <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;switch_id&#39;</span><span class="p">:</span><span class="nb">id</span><span class="p">,</span> <span class="s">&#39;number&#39;</span><span class="p">:</span><span class="n">i</span><span class="p">,</span> <span class="s">&#39;speed&#39;</span><span class="p">:</span><span class="mi">1000</span><span class="p">}</span>
+                    <span class="n">dc</span><span class="o">.</span><span class="n">add_physical_port</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">dic</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;switchD&#39;</span><span class="p">:</span>
+                <span class="n">dic</span><span class="p">[</span><span class="s">&#39;cplane&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+                <span class="nb">id</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">add_physical_switch</span><span class="p">(</span><span class="n">dic</span><span class="p">,</span> <span class="p">[</span><span class="n">vsdn_id</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">):</span>
+                    <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;switch_id&#39;</span><span class="p">:</span><span class="nb">id</span><span class="p">,</span> <span class="s">&#39;number&#39;</span><span class="p">:</span><span class="n">i</span><span class="p">,</span> <span class="s">&#39;speed&#39;</span><span class="p">:</span><span class="mi">1000</span><span class="p">}</span>
+                    <span class="n">dc</span><span class="o">.</span><span class="n">add_physical_port</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">dic</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;controller&#39;</span><span class="p">:</span>
+                <span class="n">dc</span><span class="o">.</span><span class="n">add_controller</span><span class="p">(</span><span class="n">dic</span><span class="p">,</span> <span class="n">vsdn_id</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">dic</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;hypervisor&#39;</span><span class="p">:</span>
+                <span class="n">dc</span><span class="o">.</span><span class="n">add_hypervisor</span><span class="p">(</span><span class="n">dic</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">dic</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;server&#39;</span><span class="p">:</span>
+                <span class="n">dc</span><span class="o">.</span><span class="n">add_server</span><span class="p">(</span><span class="n">dic</span><span class="p">,</span> <span class="n">vsdn_id</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">dic</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;host&#39;</span><span class="p">:</span>
+                <span class="n">dc</span><span class="o">.</span><span class="n">add_host</span><span class="p">(</span><span class="n">dic</span><span class="p">,</span> <span class="n">vsdn_id</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Unknown keyword {} encountered while adding &#39;</span> <span class="o">+</span> \
+                        <span class="s">&#39;network noes&#39;</span>
+                        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_process_edge_inserts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inserts</span><span class="p">,</span> <span class="n">vsdn_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Processes insertion of new physical edges</span>
+
+<span class="sd">            Args</span>
+<span class="sd">                inserts (List): List of dictionaries</span>
+<span class="sd">                vsdn_id (int): Primary key for relation *Vsdn*</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">insert</span> <span class="ow">in</span> <span class="n">inserts</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_connector</span><span class="o">.</span><span class="n">add_logical_edge</span><span class="p">(</span><span class="n">insert</span><span class="p">,</span> <span class="n">vsdn_id</span><span class="p">)</span>
+        <span class="c"># TODO: Create logical link embedding</span>
+
+    <span class="k">def</span> <span class="nf">_process_edge_removals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">removals</span><span class="p">,</span> <span class="n">vsdn_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Removes physical edge from database</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                removals (List): List of dictionaries</span>
+<span class="sd">                vsdn_id (int): Primary Key to relation *Vsdn*</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">removal</span> <span class="ow">in</span> <span class="n">removals</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_connector</span><span class="o">.</span><span class="n">remove_logical_edge</span><span class="p">(</span><span class="n">removal</span><span class="p">[</span><span class="s">&#39;from_node&#39;</span><span class="p">],</span> <span class="n">removal</span><span class="p">[</span><span class="s">&#39;to_node&#39;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="ManagementGuiControllerHandler.get_all_vsdn_topos"><a class="viewcode-back" href="../../intelligence.html#intelligence.guihandling.ManagementGuiControllerHandler.get_all_vsdn_topos">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_vsdn_topos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tenant_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns all topologies (hosts, logiacl links) of all VSDNs belonging</span>
+<span class="sd">            to a specific tenant</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                tenant_id (int): Primary key for relation *Tenant*</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                Dictionary of Lists</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_connector</span>
+        <span class="n">vsdns</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">get_vsdn</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">print</span> <span class="n">vsdns</span>
+        <span class="n">ret_vsdns</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">edges</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">vsdn</span> <span class="ow">in</span> <span class="n">vsdns</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">vsdn</span><span class="o">.</span><span class="n">switches</span><span class="p">:</span>
+                <span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">switch</span><span class="o">.</span><span class="n">to_dictionary</span><span class="p">())</span>
+
+            <span class="n">hosts</span> <span class="o">=</span> <span class="n">vsdn</span><span class="o">.</span><span class="n">get_hosts</span><span class="p">(</span><span class="n">dc</span><span class="o">.</span><span class="n">store</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">host</span> <span class="ow">in</span> <span class="n">hosts</span><span class="p">:</span>
+                <span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">host</span><span class="o">.</span><span class="n">to_dictionary</span><span class="p">())</span>
+            <span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vsdn</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">to_dictionary</span><span class="p">())</span>
+
+            <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">vsdn</span><span class="o">.</span><span class="n">logical_edges</span><span class="p">:</span>
+                <span class="n">edges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">to_dictionary</span><span class="p">())</span>
+
+            <span class="n">ret_vsdns</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s">&#39;vsdn:&#39;</span><span class="p">:</span><span class="n">vsdn</span><span class="o">.</span><span class="n">to_dictionary</span><span class="p">(),</span>
+                <span class="s">&#39;nodes&#39;</span><span class="p">:</span><span class="n">nodes</span><span class="p">,</span>
+                <span class="s">&#39;edges&#39;</span><span class="p">:</span><span class="n">edges</span>
+                <span class="p">})</span>
+        <span class="k">return</span> <span class="n">ret_vsdns</span>
+</div>
+<div class="viewcode-block" id="ManagementGuiControllerHandler.get_vsdn_topo"><a class="viewcode-back" href="../../intelligence.html#intelligence.guihandling.ManagementGuiControllerHandler.get_vsdn_topo">[docs]</a>    <span class="k">def</span> <span class="nf">get_vsdn_topo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vsdn_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns one specific VSDN topology (Hosts, LogicalEdges)</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                vsdn_id (int): Primary Key to relation *Vsdn*</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                Dictionary of Lists</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dc</span> <span class="o">=</span> <span class="n">dbi</span><span class="o">.</span><span class="n">StormConnector</span><span class="p">()</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">edges</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">vsdn</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">get_vsdn</span><span class="p">(</span><span class="n">vsdn_id</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">vsdn</span><span class="o">.</span><span class="n">switches</span><span class="p">:</span>
+            <span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">switch</span><span class="o">.</span><span class="n">to_dictionary</span><span class="p">())</span>
+
+        <span class="k">for</span> <span class="n">host</span> <span class="ow">in</span> <span class="n">vsdn</span><span class="o">.</span><span class="n">get_hosts</span><span class="p">(</span><span class="n">dc</span><span class="o">.</span><span class="n">store</span><span class="p">):</span>
+            <span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">host</span><span class="o">.</span><span class="n">to_dictionary</span><span class="p">())</span>
+        <span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vsdn</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">to_dictionary</span><span class="p">())</span>
+
+        <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">vsdn</span><span class="o">.</span><span class="n">logical_edges</span><span class="p">:</span>
+            <span class="n">edges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">to_dictionary</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s">&#39;vsdn&#39;</span><span class="p">:</span><span class="n">vsdn</span><span class="o">.</span><span class="n">to_dictionary</span><span class="p">(),</span> <span class="s">&#39;nodes&#39;</span><span class="p">:</span><span class="n">nodes</span><span class="p">,</span> <span class="s">&#39;edges&#39;</span><span class="p">:</span><span class="n">edges</span><span class="p">}</span>
+</div>
+<div class="viewcode-block" id="ManagementGuiControllerHandler.get_physical_topo"><a class="viewcode-back" href="../../intelligence.html#intelligence.guihandling.ManagementGuiControllerHandler.get_physical_topo">[docs]</a>    <span class="k">def</span> <span class="nf">get_physical_topo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vsdn_id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns the physical topology (switches and physical edges) allocated</span>
+<span class="sd">            to a specific VSDN</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                vsdn_id (int, optional): Primary Key to relation *Vsdn*</span>
+
+<span class="sd">            Note:</span>
+<span class="sd">                At the moment whole physical topology is returned. At a later</span>
+<span class="sd">                point this behaviour will change</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                Dictionary of Lists</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dc</span> <span class="o">=</span> <span class="n">dbi</span><span class="o">.</span><span class="n">StormConnector</span><span class="p">()</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ret_edges</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">switches</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">get_physical_topo</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">switch</span> <span class="ow">in</span> <span class="n">switches</span><span class="p">:</span>
+            <span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">switch</span><span class="o">.</span><span class="n">to_dictionary</span><span class="p">())</span>
+
+        <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+            <span class="n">ret_edges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">to_dictionary</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s">&#39;nodes&#39;</span><span class="p">:</span><span class="n">nodes</span><span class="p">,</span> <span class="s">&#39;edges&#39;</span><span class="p">:</span><span class="n">ret_edges</span><span class="p">}</span>
+</div>
+<div class="viewcode-block" id="ManagementGuiControllerHandler.get_hypervisor_context"><a class="viewcode-back" href="../../intelligence.html#intelligence.guihandling.ManagementGuiControllerHandler.get_hypervisor_context">[docs]</a>    <span class="k">def</span> <span class="nf">get_hypervisor_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vsdn_id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns all hypervisor and edges starting at it from database (for</span>
+<span class="sd">            a specific VSDN</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                vsdn_id (int, optional): Primary key of the *Vsdn* relation</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                hdics: List of dictionaries containing attributes of Hypervisor</span>
+<span class="sd">                edges: List of edges</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dc</span> <span class="o">=</span> <span class="n">dbi</span><span class="o">.</span><span class="n">StormConnector</span><span class="p">()</span>
+        <span class="n">hypervisor</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">get_hypervisor</span><span class="p">()</span>
+        <span class="n">hdics</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">edges</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">hypervisor</span><span class="p">:</span>
+            <span class="n">hdics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">to_dictionary</span><span class="p">())</span>
+            <span class="nb">set</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">get_edges_by_node</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">:</span>
+                <span class="n">edges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">to_dictionary</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">hdics</span><span class="p">,</span> <span class="n">edges</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Patrick Kalmbach.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

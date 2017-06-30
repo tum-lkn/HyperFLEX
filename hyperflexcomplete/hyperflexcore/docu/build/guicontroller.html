@@ -1,0 +1,432 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>guicontroller package &mdash; HyperFLEX Core 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="HyperFLEX Core 0.1 documentation" href="index.html" />
+    <link rel="up" title="HyperFLEX Core API" href="api.html" />
+    <link rel="next" title="data package" href="data.html" />
+    <link rel="prev" title="HyperFLEX Core API" href="api.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="data.html" title="data package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="api.html" title="HyperFLEX Core API"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">HyperFLEX Core 0.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="api.html" accesskey="U">HyperFLEX Core API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="guicontroller-package">
+<h1>guicontroller package<a class="headerlink" href="#guicontroller-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-guicontroller.config">
+<span id="guicontroller-config-module"></span><h2>guicontroller.config module<a class="headerlink" href="#module-guicontroller.config" title="Permalink to this headline">¶</a></h2>
+<p>Defines global variables/constants and performs initialization
+(rading config files and such)</p>
+<dl class="function">
+<dt id="guicontroller.config.get_config">
+<code class="descclassname">guicontroller.config.</code><code class="descname">get_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/guicontroller/config.html#get_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#guicontroller.config.get_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-guicontroller.guiclient">
+<span id="guicontroller-guiclient-module"></span><h2>guicontroller.guiclient module<a class="headerlink" href="#module-guicontroller.guiclient" title="Permalink to this headline">¶</a></h2>
+<p>Implements clients for ManagementGuiController and StatisticsGuiController.</p>
+<dl class="class">
+<dt id="guicontroller.guiclient.ManagementGuiClient">
+<em class="property">class </em><code class="descclassname">guicontroller.guiclient.</code><code class="descname">ManagementGuiClient</code><a class="reference internal" href="_modules/guicontroller/guiclient.html#ManagementGuiClient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#guicontroller.guiclient.ManagementGuiClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Client to handle communication with hyperflexcore.guiController.ManagementGuiController</p>
+<dl class="attribute">
+<dt id="guicontroller.guiclient.ManagementGuiClient.serveraddress">
+<code class="descname">serveraddress</code><a class="headerlink" href="#guicontroller.guiclient.ManagementGuiClient.serveraddress" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>String</em></p>
+<p>IP Address of the server defined in packages init.py</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="guicontroller.guiclient.ManagementGuiClient.serverport">
+<code class="descname">serverport</code><a class="headerlink" href="#guicontroller.guiclient.ManagementGuiClient.serverport" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em></p>
+<p>Port of ManagementGuiController defined in packages init.py</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="guicontroller.guiclient.ManagementGuiClient.socket">
+<code class="descname">socket</code><a class="headerlink" href="#guicontroller.guiclient.ManagementGuiClient.socket" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>socket.socket</em></p>
+<p>Clients socket to communicate with ManagementGuiController</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="guicontroller.guiclient.ManagementGuiClient.ServerAddress">
+<code class="descname">ServerAddress</code><a class="headerlink" href="#guicontroller.guiclient.ManagementGuiClient.ServerAddress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the IP-Address of the ManagementGuiController</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">serveraddress (String)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="guicontroller.guiclient.ManagementGuiClient.ServerPort">
+<code class="descname">ServerPort</code><a class="headerlink" href="#guicontroller.guiclient.ManagementGuiClient.ServerPort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the port of the ManagementGuiController</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">serverport (int)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="guicontroller.guiclient.ManagementGuiClient.Socket">
+<code class="descname">Socket</code><a class="headerlink" href="#guicontroller.guiclient.ManagementGuiClient.Socket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns clients socket</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">socket (socket.socket)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="guicontroller.guiclient.ManagementGuiClient.sendChangeNetworkRequest">
+<code class="descname">sendChangeNetworkRequest</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/guicontroller/guiclient.html#ManagementGuiClient.sendChangeNetworkRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#guicontroller.guiclient.ManagementGuiClient.sendChangeNetworkRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends changes in network to GUI Controller</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>request</strong> (<em>JSON String</em>) &#8211; String containing the changes to be performed on
+the network. See <cite>wiki &lt;https://wiki.lkn.ei.tum.de/intern:lkn:all:                    students:henkel2:hyperflex_centralized#dynamic_topology</cite> for detailed
+format specification</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="guicontroller.guiclient.ManagementGuiClient.send_network_retrieval_request">
+<code class="descname">send_network_retrieval_request</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/guicontroller/guiclient.html#ManagementGuiClient.send_network_retrieval_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#guicontroller.guiclient.ManagementGuiClient.send_network_retrieval_request" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-guicontroller.guicontroller">
+<span id="guicontroller-guicontroller-module"></span><h2>guicontroller.guicontroller module<a class="headerlink" href="#module-guicontroller.guicontroller" title="Permalink to this headline">¶</a></h2>
+<p>Implements different GUIController to handle different types of GUIs</p>
+<dl class="class">
+<dt id="guicontroller.guicontroller.HyperFlexHandler">
+<em class="property">class </em><code class="descclassname">guicontroller.guicontroller.</code><code class="descname">HyperFlexHandler</code><a class="reference internal" href="_modules/guicontroller/guicontroller.html#HyperFlexHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#guicontroller.guicontroller.HyperFlexHandler" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="guicontroller.guicontroller.HyperFlexHandler.get_all_vsdn">
+<code class="descname">get_all_vsdn</code><span class="sig-paren">(</span><em>user_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/guicontroller/guicontroller.html#HyperFlexHandler.get_all_vsdn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#guicontroller.guicontroller.HyperFlexHandler.get_all_vsdn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all VSDNs belonging to <cite>user</cite> (tenant, admin, ...). For each
+VSDN returns Hosts, Controller and logical links. Does NOT return
+any physical switches</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Identifier of an entity (tenant, admin, ...) whose
+networks (or the networks they are allowed to see) should
+be retrieved (1 for admin).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>message</strong> &#8211;
+Has the following members:<blockquote>
+<div>error (String): Set if error occured. Contains error message
+id (int): ID of request
+data (List): List of JSON serialized network topologies (see<blockquote>
+<div><cite>wiki &lt;https://wiki.lkn.ei.tum.de/intern:lkn:all:                        students:henkel2:hyperflex_centralized#dynamic_topology</cite>)</div></blockquote>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">JSON serialized Dictionary</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="guicontroller.guicontroller.HyperFlexHandler.get_physical_topo">
+<code class="descname">get_physical_topo</code><span class="sig-paren">(</span><em>user_type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/guicontroller/guicontroller.html#HyperFlexHandler.get_physical_topo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#guicontroller.guicontroller.HyperFlexHandler.get_physical_topo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns physical topology based on <cite>user</cite>. If <cite>user</cite> is a tenant,
+physical ressources allocated for tenant&#8217;s infrastructure are
+returned.
+If <cite>user</cite> is admin whole physical infrastructure (inluding
+hypervisor) is returned.
+Physical topology means switches and links between them.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Identifier of user (1 for admin)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>topology</strong> &#8211;
+List of Dictionaries</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">JSON serialized List</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<dl class="docutils">
+<dt>{</dt>
+<dd><p class="first">vsdn_id: &lt;id&gt;,
+nodes: [</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>{</dt>
+<dd>&#8216;id&#8217;: &lt;id&gt;,
+&#8216;type&#8217;: &#8216;switch&#8217;,
+&#8216;name&#8217;: &lt;name&gt;,
+&#8216;dpid&#8217;: &lt;dpid&gt;,
+&#8216;ip&#8217;: &lt;ip&gt;,
+&#8216;ip_port&#8217;: &lt;ip_port&gt;,
+&#8216;num_ports&#8217;: &lt;num_ports&gt;,
+&#8216;cplane&#8217;: &lt;True/False&gt;</dd>
+</dl>
+</div></blockquote>
+<p>]
+edges: [</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>{</dt>
+<dd>&#8216;from_node&#8217;: &lt;id&gt;,
+&#8216;from_port&#8217;: &lt;port&gt;,
+&#8216;to_node&#8217;: &lt;id&gt;,
+&#8216;to_port&#8217;: &lt;id&gt;</dd>
+</dl>
+</div></blockquote>
+<p class="last">]</p>
+</dd>
+</dl>
+<p>}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="guicontroller.guicontroller.HyperFlexHandler.get_vsdn">
+<code class="descname">get_vsdn</code><span class="sig-paren">(</span><em>vsdn_id</em>, <em>user</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/guicontroller/guicontroller.html#HyperFlexHandler.get_vsdn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#guicontroller.guicontroller.HyperFlexHandler.get_vsdn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retuns VSDN <cite>vsdn_id</cite>. Contains all hosts, controller and logical
+links defined by the tenant. Does NOT include any physical switches</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>vsdn_id</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Identifier of an VSDN network</li>
+<li><strong>user</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Identifier of entity (tenant, admin,...) requesting
+topology (1 for admin)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p><strong>message</strong> &#8211;
+Has the following members:</p>
+<blockquote>
+<div><p>error (String): Set if error occured. Contains error message
+id (int): ID of request
+data (String): JSON serialized network topology</p>
+</div></blockquote>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON serialized Dictionary</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="guicontroller.guicontroller.HyperFlexHandler.update_vsdn">
+<code class="descname">update_vsdn</code><span class="sig-paren">(</span><em>updates</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/guicontroller/guicontroller.html#HyperFlexHandler.update_vsdn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#guicontroller.guicontroller.HyperFlexHandler.update_vsdn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Altering VSDN (adding/removing hosts, controller, logical links)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>updates</strong> (<em>String</em>) &#8211; JSON serialized list of dictionaries</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<dl class="docutils">
+<dt>{</dt>
+<dd><p class="first">&#8216;vsdn_id&#8217;: &lt;id&gt;,
+&#8216;nodes&#8217;: [</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>{</dt>
+<dd>&#8216;type&#8217;: &#8220;host&#8221;,
+&#8216;id&#8217;: &lt;id&gt;,
+&#8216;label&#8217;: &lt;name&gt;,
+&#8216;action&#8217;: (add|remove)</dd>
+<dt>}, {</dt>
+<dd>&#8216;type&#8217;: &#8220;controller&#8221;,
+&#8216;label&#8217;: &lt;name&gt;,
+&#8216;location&#8217;: &lt;location&gt;,
+&#8216;ip&#8217;: &lt;ip&gt;,
+&#8216;ip_port&#8217;: &lt;ip_port&gt;,
+&#8216;action&#8217;: (add|remove)</dd>
+</dl>
+</div></blockquote>
+<p>]
+&#8216;edges: [</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>{</dt>
+<dd>&#8220;from_node&#8221;: &lt;id&gt;,
+&#8220;to_node&#8221;: &lt;id&gt;
+&#8220;action&#8221;: (add|remove)</dd>
+</dl>
+</div></blockquote>
+<p class="last">]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="guicontroller.guicontroller.JsonRpcServer">
+<em class="property">class </em><code class="descclassname">guicontroller.guicontroller.</code><code class="descname">JsonRpcServer</code><a class="reference internal" href="_modules/guicontroller/guicontroller.html#JsonRpcServer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#guicontroller.guicontroller.JsonRpcServer" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="guicontroller.guicontroller.JsonRpcServer.application">
+<code class="descname">application</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/guicontroller/guicontroller.html#JsonRpcServer.application"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#guicontroller.guicontroller.JsonRpcServer.application" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="guicontroller.guicontroller.JsonRpcServer.start_server">
+<code class="descname">start_server</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/guicontroller/guicontroller.html#JsonRpcServer.start_server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#guicontroller.guicontroller.JsonRpcServer.start_server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start server and listen for requests</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-guicontroller">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-guicontroller" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">guicontroller package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-guicontroller.config">guicontroller.config module</a></li>
+<li><a class="reference internal" href="#module-guicontroller.guiclient">guicontroller.guiclient module</a></li>
+<li><a class="reference internal" href="#module-guicontroller.guicontroller">guicontroller.guicontroller module</a></li>
+<li><a class="reference internal" href="#module-guicontroller">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="api.html"
+                        title="previous chapter">HyperFLEX Core API</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="data.html"
+                        title="next chapter">data package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/guicontroller.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Patrick Kalmbach.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+      |
+      <a href="_sources/guicontroller.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>
