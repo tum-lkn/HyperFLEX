@@ -39,11 +39,11 @@ _Adding a controller_: Under the field 'Control' select 'Add Node', and fill in 
 
 Network is now ready to be requested by clicking on the 'Request VSDN' under 'Control'.
 
-Run the desired SDN controller in VM with internal network interface 'ctrl-sw-4' with a static IP 192.168.75.10/24 to control your vSDN. 
+Run the desired SDN controller in VM with internal network interface 'ctrl-sw-1' with a static IP 192.168.75.10/24 to control your vSDN. 
 
 If you wish to update isolation method or rate, first click in the tenant view under 'VSDNs' on the network you wish to edit, afterwards, edit the parameters and select 'Update VSDN'.
 
-If you wish to add a second vSDN it is just necessary to specify a host and a controller at Berlin with IP 192.168.50.10/24 and to connect the VM containing the controller to 'ctrl-sw-1'. 
+If you wish to add a second vSDN it is just necessary to specify a host and a controller at Berlin with IP 192.168.50.10/24 and to connect the VM containing the controller to 'ctrl-sw-4'. 
 
 ### HyperFLEX Core GUI
 

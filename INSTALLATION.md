@@ -4,6 +4,8 @@
 
 The provided example setup of HyperFLEX uses two PCs and in total 5/6 VMs. Hence, it is advised to have a sufficient amount of CPUs and RAM per PC (e.g. at least 4CPUs and at least 8GB per PC).
 
+Testing was done on ubuntu 14.04, hence, it is advised to use this version for VMs.
+
 PC1 contains:
 
 * VM1 - HyperFLEX Framework
@@ -16,7 +18,7 @@ PC2 contains:
 * HyperFLEX GUI
 * SDN Controllers (typically one per VM)
 
-After completion of the installation process, two PCs should be connected and assigned static IPs, PC-1 '10.162.149.123/16' and PC-2 '10.162.149.125/16'. 
+**After** completion of the installation process, two PCs should be **connected** and assigned static IPs, PC-1 '10.162.149.123/16' and PC-2 '10.162.149.125/16'. 
 
 If you wish to use real network instead of mininet or a different setup, different configuration of the interfaces will be necessary.
 
@@ -63,7 +65,7 @@ HyperFLEX framework can be run as:
 
 ```
 cd HyperFLEX/hyperflexcomplete/hyperflexcore
-python -m hypeflecore.guicontroller.guicontroller
+python -m hypeflexcore.guicontroller.guicontroller
 ```
 
 ### Hypervisor Setup - VM2
@@ -93,9 +95,9 @@ python HyperFLEX/hyperflexcomplete/hyperflexcore/hyperflexcore/data/livedata.py 
 ```
 ### Setup of Emulated Data topology - VM3
 
-Install [mininet](http://mininet.org/) and pull data_topo_scripts/datatopo.py.
+Install [mininet](http://mininet.org/) and download topologies/datatopo.py.
 
-Add to VM1 one internal interface (this interface is used for a connection to the hypervisor) 'mn-hv' and set up a static ip 192.168.125.21/24 and run the topo as:
+Add to mininet VM - VM3 one internal interface (this interface is used for a connection to the hypervisor) 'mn-hv' and set up a static ip 192.168.125.21/24 and run the topo as:
 ```
 sudo -mn --controller=remote,ip=192.168.125.20,port=6633 --custom HyperFLEX/topologies/datatopo.py --topo datatopo
 ```  
@@ -103,24 +105,31 @@ sudo -mn --controller=remote,ip=192.168.125.20,port=6633 --custom HyperFLEX/topo
 
 ## Configuration of PC-2
 
-Configure it with a static IP of 10.162.149.125/16 after pulling all the stuff.
+Configure it with a static IP of 10.162.149.125/16 after completing installation.
 
 ### Management switch VM-4
 
-To avoid configuring interfaces, pull the VM image from link and import it.
+To avoid configuring interfaces, download the VM image from [dropbox](https://dropbox.com) and import it in the virtualbox.
 
-To run the switch, just boot up the VM.
+To run the switch, boot up the VM and run from /home/base/:
+
+`sudo ./switch_rules`
+
+
+### SDN Controllers
 
 The SDN controllers should be placed in VMs with static IPs and internal network adapter configured as one of the options:
-1) Internal network 'ctrl-sw1' with static IP 192.168.75.10 
-2) Internal network 'ctrl-sw4' with static IP 192.168.50.10
+1) Internal network 'ctrl-sw1' with static IP 192.168.75.10/24 
+2) Internal network 'ctrl-sw4' with static IP 192.168.50.10/24
+
+
 
 ### GUI setup
 
-Pull HyperFLEX GUI from hyperflexgui.
+Pull [HyperFLEX GUI](https://github.com/tum-lkn/HyperFLEX/).
 
-To open **Tenant View GUI** open `/hyperflexcomplete/hyperflexgui/html/tenant/tenant_gui.html` and use username 'tenant1' and password 'tenant'.
+To open **Tenant View GUI** open `HyperFLEX/hyperflexcomplete/hyperflexgui/html/tenant/tenant_gui.html` and use username 'tenant1' and password 'tenant'.
 
-To open **HyperFLEX Core GUI** open `/hyperflexcomplete/hyperflexgui/html/hyperflex/hypervisor_gui.html`.
+To open **HyperFLEX Core GUI** open `HyperFLEX/hyperflexcomplete/hyperflexgui/html/hyperflex/hypervisor_gui.html`.
 
-To open **Monitoring GUI** open `/hyperflexcomplete/hyperflexgui/html/monitoring/index.html`.
+To open **Monitoring GUI** open `HyperFLEX/hyperflexcomplete/hyperflexgui/html/monitoring/index.html`.
