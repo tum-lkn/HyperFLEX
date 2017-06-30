@@ -1,8 +1,28 @@
-# Configuration of the setup and HyperFLEX installation
+# HyperFLEX installation and Configuration of example setup
 
-## System Requirements
+## System Requirements & Overall Setup
 
-## Installation and dependacies 
+The provided example setup of HyperFLEX uses two PCs and in total 5/6 VMs. Hence, it is advised to have a sufficient amount of CPUs and RAM per PC (e.g. at least 4CPUs and at least 8GB per PC).
+
+PC1 contains:
+
+* VM1 - HyperFLEX Framework
+* VM2 - Hypervisor (i.e. flowvisor) and monitoring agent
+* VM3 - Emulation of data topology using Mininet 
+
+PC2 contains:
+
+* VM4 - Management Switch
+* HyperFLEX GUI
+* SDN Controllers (typically one per VM)
+
+After completion of the installation process, two PCs should be connected and assigned static IPs, PC-1 '10.162.149.123/16' and PC-2 '10.162.149.125/16'. 
+
+If you wish to use real network instead of mininet or a different setup, different configuration of the interfaces will be necessary.
+
+## Configuration of PC-1
+
+### Installation of HyperFLEX and all dependacies (VM-1)
 
 Testing was done on Ubuntu 14.04, using a VM is advised, and the following packages are required:
 
@@ -34,32 +54,14 @@ You will also need to install [nanomsg](https://github.com/nanomsg/nanomsg) from
 
 Before starting up, import a MySQL database "database_clean.sql". Also, add an mysql user "user" without a password and enable the external access to the databases.   
 
-## Using HyperFLEX and the configured setup 
+Add one bridged interface to the VM with a static IP of 10.162.149.124/16.
 
-Current HyperFLEX demo is realized on two PCs, eg. PC1 and PC2. 
+HyperFLEX framework now can be run as:
 
-PC1 contains 3 VMs:
-
-* VM1 - Emulation of data topology using Mininet  
-* VM2 - Hypervisor (i.e. flowvisor)
-* VM3 - HyperFLEX 
-
-PC2 contains:
-
-* VM4 - Management Switch
-* GUI
-* SDN Controllers
-
-## Configuration of PC-1
-
-### Setup of Emulated Data topology - VM1
-
-Install [mininet](http://mininet.org/) and pull data_topo_scripts/datatopo.py.
-
-Add to VM1 one internal interface 'mn-hv' and set up a static ip 192.168.125.21/24 and run the topo as:
 ```
-sudo -mn --controller=remote,ip=192.168.125.20,port=6633 --custom /datatopo.py --topo datatopo
-```  
+cd hyperflexcomplete/hyperflexcore
+python -m hypeflecore.guicontroller.guicontroller
+```
 
 ### Hypervisor Setup - VM2
 
@@ -68,7 +70,7 @@ Install dependancies:
 sudo apt-get install python-pip python-dev build-essential libtool
 sudo pip install json-rpc
 ```
-You will also need to install [nanomsg](https://github.com/nanomsg/nanomsg) from source, as well as `sudo pip install nanomsg`. 
+You will also need to install [nanomsg](https://github.com/nanomsg/nanomsg) from source, and `sudo pip install nanomsg`. 
 
 As well as [flowvisor](https://github.com/opennetworkinglab/flowvisor) and pull hypeflexcore.
 
@@ -85,12 +87,16 @@ Or just use our VM image:.
 
 Run flowvisor (i.e. `sudo -u flowvisor flowvisor`), and run the monitoring agent:
 ```
-python hyperflexcore/hyperflexcore/data/livedata.py --sufix=1
+python (your path)/hyperflexcore/hyperflexcore/data/livedata.py --sufix=1
 ```
+### Setup of Emulated Data topology - VM3
 
-### Setup of HyperFLEX
+Install [mininet](http://mininet.org/) and pull data_topo_scripts/datatopo.py.
 
-Installation was explained in previous sections, it is just needed to add one bridged interface to the VM containing the HyperFLEX with static IP of 10.162.149.124/16.
+Add to VM1 one internal interface 'mn-hv' and set up a static ip 192.168.125.21/24 and run the topo as:
+```
+sudo -mn --controller=remote,ip=192.168.125.20,port=6633 --custom /datatopo.py --topo datatopo
+```  
 
 
 ## Configuration of PC-2

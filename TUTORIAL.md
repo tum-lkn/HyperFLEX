@@ -2,7 +2,7 @@
 
 In this tutorial it is presented how to use HyperFLEX GUI, and how to add and run simple virtual SDN networks.
 
-Follow the instructions from [Installation](https://github.com/tum-lkn/HyperFLEX/INSTALLATION.md) to configure provided example setup.
+Follow the instructions from [Installation](https://github.com/tum-lkn/HyperFLEX/blob/master/INSTALLATION.md) to configure provided example setup.
 
 ## Tenant View GUI
 
