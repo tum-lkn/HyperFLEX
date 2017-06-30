@@ -22,7 +22,7 @@ If you wish to use real network instead of mininet or a different setup, differe
 
 ## Configuration of PC-1
 
-### Installation of HyperFLEX and all dependacies (VM-1)
+### Installation of HyperFLEX and all dependacies - VM1
 
 Testing was done on Ubuntu 14.04, using a VM is advised, and the following packages are required:
 
@@ -59,7 +59,7 @@ Add an mysql user "user" without a password and enable the external access to th
 
 Add one bridged interface to the VM with a static IP of 10.162.149.124/16.
 
-HyperFLEX framework now can be run as:
+HyperFLEX framework can be run as:
 
 ```
 cd HyperFLEX/hyperflexcomplete/hyperflexcore
@@ -78,14 +78,14 @@ You will also need to install [nanomsg](https://github.com/nanomsg/nanomsg) from
 
 As well as [flowvisor](https://github.com/OPENNETWORKINGLAB/flowvisor/wiki/Installation-from-Binary) and pull [HyperFLEX](https://github.com/tum-lkn/HyperFLEX).
 
-Add one internal interface 'mn-hv' to the mininet with ip 192.168.125.20/24 and two bridged, one for control plane traffic and one for management as:
+Add 3 network interfaces to VM, one internal interface 'mn-hv' to the mininet with ip 192.168.125.20/24 and two bridged, one for control plane traffic and one for management as:
 
 * eth2 (bridging eth0) with static ip 10.162.149.241/24
 * eth3 (bridging eth0) with static
-    * ip 192.168.200.100
+    * address 192.168.200.100
     * netmask 255.255.254.0
-    * up route add -net 192.168.50.0/24 eth3
-    * up route add -net 192.168.75.0/24 eth3  
+    * up route add -net 192.168.50.0/24 dev eth3
+    * up route add -net 192.168.75.0/24 dev eth3  
 
 Run flowvisor (i.e. `sudo -u flowvisor flowvisor`), and run the monitoring agent:
 ```
