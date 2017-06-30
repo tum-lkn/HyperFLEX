@@ -1,0 +1,15 @@
+
+
+#network-container, #t_network-container {
+    float:left;
+    width: 50%;
+    height: 100%;
+	
+}
+#t_network-container {
+    border-left: 3px dashed #666;
+}
+
+.background {
+    background-color: #fff;    
+}

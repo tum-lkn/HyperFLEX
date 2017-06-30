@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <script src="../js/jquery-2.1.3.min.js"></script>
+        <script src="../js/jquery-ui-1.11.2.custom/jquery-ui.min.js"></script>
+        <script src="../js/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
+        <script src="../js/canvasjs.min.js"></script>
+        <script src="../js/jquery.jsonrpcclient.js"></script>    
+        <script src="../config.js"></script>        
+        <script src="../js/jsonrpc.js"></script>        
+        <script src="./jsonrpc-monitoring.js"></script>        
+        <script src="../js/websocket.class.js"></script>        
+        <script src="../js/general.js"></script>        
+        <script src="./buttons.js"></script> 
+        <script src="./cpu_chart.js"></script>
+        <script src="./latency_chart.js"></script>
+        <script src="./loss_chart.js"></script>
+        <script src="./general.js"></script>        
+        <script src="../js/vsdn.js"></script>
+
+
+
+        <link href="../js/jquery-ui-1.11.2.custom/jquery-ui.min.css" type="text/css" rel="stylesheet">
+        <link href="../js/bootstrap-3.3.2-dist/css/bootstrap.min.css" type="text/css" rel="stylesheet">              
+        <link href="../css/style.css" type="text/css" rel="stylesheet">
+        <link href="../css/monitoring.css" type="text/css" rel="stylesheet">  
+        
+
+
+        <title>Hyperflex Ressource Monitor</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="charts">
+            <div class="chart-row">
+                <div class="chart" id="cpuChart1"></div>
+            </div>
+            
+            <div class="chart-row">
+                <div class="chartHalf" id="latencyChart1"></div>
+                <div class="chartHalf" id="latencyChart2"></div>
+            </div>
+            <div class="chart-row">
+                <div class="chartHalf" id="lossChart1"></div>
+                <div class="chartHalf" id="lossChart2"></div>
+            </div>
+        </div>
+        <div id="sideMenu">
+            <div class="sideMenuBox" id="vsdnBox">
+                <div class="sideMenuHead"><span class="glyphicon glyphicon-menu-down sideMenuCollapse">&nbsp;</span>VSDNs:</div>
+                <div class="sideMenuBody">
+                    <div id="vsdnListOuter">		
+                        <div class="vsdnAllRow">
+                            <input type="checkbox" class="vsdnAllCheckbox" checked>
+                            <label class="vsdnLabel"><span class="">All</span></label>					
+                        </div>
+                        <hr />
+                        <div id="vsdnList">
+                            <span class="noVSDNSDummy">No VSDNS defined!</span>
+                        </div>                        
+                    </div>					
+                </div>
+            </div>
+            
+            <div class="sideMenuBox" id="controlBox">
+                <div class="sideMenuHead"><span class="glyphicon glyphicon-menu-down sideMenuCollapse">&nbsp;</span>Control</div>				
+                <div class="sideMenuBody">
+                    <div class="input-group input-group-sm">
+                        Message rate:<input type="text" class="form-control" placeholder="Message Rate" id="messageRate" value="1000">                        
+                    </div>
+                    <button class="btn btn-xs btn-info btn-block" id="startPerfbench">Start perfbench</button>	                   
+                    <button class="btn btn-xs btn-danger btn-block" id="killPerfbench">Kill perfbench</button>	                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

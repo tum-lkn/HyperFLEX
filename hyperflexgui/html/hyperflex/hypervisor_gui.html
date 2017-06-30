@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Hyperflex Control GUI</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<link rel="stylesheet" href="../css/font-awesome.min.css">
+        <link href="../js/vis/vis.min.css" type="text/css" rel="stylesheet">
+        <link href="../js/jquery-ui-1.11.2.custom/jquery-ui.min.css" type="text/css" rel="stylesheet">
+        <link href="../js/bootstrap-3.3.2-dist/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+        <link href="../css/style.css" type="text/css" rel="stylesheet">
+        <link href="../css/network.css" type="text/css" rel="stylesheet">
+
+        <script src="../js/jquery-2.1.3.min.js"></script>
+        <script src="../js/jquery-ui-1.11.2.custom/jquery-ui.min.js"></script>
+        <script src="../js/jquery.jsonrpcclient.js"></script>
+        <script src="../js/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>	
+        <script src="../js/general.js"></script>		
+        <script src="../js/websocket.class.js"></script>		
+        <script src="../js/vis/vis.js"></script>	
+        <script src="../js/network.class.js"></script>	
+        <script src="../config.js"></script>
+        <script src="../js/jsonrpc.js"></script>
+        <script src="./network.js"></script>		
+        <script src="../js/vsdn.js"></script>
+        <script src="./buttons.js"></script>	
+        <script src="../js/sidemenu.js"></script>
+        <script src="./add-node_popup.js"></script>	
+        <script src="../js/canvasjs.min.js"></script>
+        <script src="./cpubar.js"></script>
+
+
+    </head>
+    <body>
+        <img src="../img/hyperflex_logo.png" id="logo" />
+        <div id="container">
+            <div id="network-container" style="width:100%"></div>					
+        </div>
+
+        <div id="sideMenu">				
+            <div class="sideMenuBox" id="vsdnBox">
+                <div class="sideMenuHead"><span class="glyphicon glyphicon-menu-down sideMenuCollapse">&nbsp;</span>VSDNs:</div>
+                <div class="sideMenuBody">
+                    <div id="vsdnListOuter">		
+                        <div class="vsdnAllRow">
+                            <input type="checkbox" class="vsdnAllCheckbox" checked>
+                            <label class="vsdnLabel"><span class="">All</span></label>					
+                        </div>
+                        <hr />
+                        <div id="vsdnList">
+                            <span class="noVSDNSDummy">No VSDNS defined!</span>
+                        </div>                        
+                    </div>					
+                </div>
+            </div>
+            <div class="sideMenuBox" id="infoBoxNode">
+                <div class="sideMenuHead"><span class="glyphicon glyphicon-menu-down sideMenuCollapse">&nbsp;</span>Node info:</div>
+                <div class="sideMenuBody" data-collapsed="1">
+                    <div><label class="infoLabel">ID:</label><span id="infoNodeID"></span></div>
+                    <div><label class="infoLabel">Name:</label><span id="infoNodeName"></span></div>
+                    <div><label class="infoLabel">Ports:</label><span id="infoNodePorts"></span></div>
+                    <div><div id="infoNodePortTpls">&nbsp;</div></div>
+                    <div><label class="infoLabel">vSDN:</label><span id="infoNodeVSDN"></span></div>					
+                </div>
+            </div>
+            <div class="sideMenuBox" id="infoBoxEdge">
+                <div class="sideMenuHead"><span class="glyphicon glyphicon-menu-down sideMenuCollapse">&nbsp;</span>Edge info:</div>				
+                <div class="sideMenuBody" data-collapsed="1">
+                    <div><label class="infoLabel">ID:</label><span id="infoEdgeID"></span></div>
+                    <div><label class="infoLabel">VSDN:</label><span id="infoEdgeVSDN"></span></div>
+                    <div><label class="infoLabel">Connected:</label><span id="infoEdgeConn"></span></div>
+                    <div>
+                        <label class="infoLabel">Bandwidth:</label>
+                        <input type="text" id="infoEdgeBW" placeholder="Mbps" class="inputBW">
+                        <button id="setLinkBW" type="button">Set</button>
+                    </div>
+                    <div>
+                        <label class="infoLabel">Msg rate:</label>
+                        <input type="text" id="infoEdgeMsgRate" placeholder="msg / s" class="inputBW">
+                        <button id="setLinkMsgRate" type="button">Set</button>
+                    </div>                    
+                </div>
+            </div>
+            <div class="sideMenuBox" id="controlBox">
+                <div class="sideMenuHead"><span class="glyphicon glyphicon-menu-down sideMenuCollapse">&nbsp;</span>Control:</div>				
+                <div class="sideMenuBody">
+                    <button class="btn btn-xs btn-info btn-block" id="requestTopo">Receive topology</button>
+                    <button class="btn btn-xs btn-primary btn-block" id="dumpNetwork">Dump Network</button>
+                    <button class="btn btn-xs btn-primary btn-block" id="readNetwork">Read Network</button>
+                    <hr />
+                    <button class="btn btn-xs btn-info btn-block" id="requestVSDNS">Receive VSDNs</button>
+                    <button class="btn btn-xs btn-primary btn-block" id="dumpVSDNS">Dump VSDNs</button>
+                    <button class="btn btn-xs btn-primary btn-block" id="readVSDN">Read VSDN</button>
+                    <hr />
+                    <button class="btn btn-xs btn-success btn-block" data-toggle="modal" data-target=".addNodePopup">Add Node</button>
+                    <button class="btn btn-xs btn-success btn-block" id="addEdge">Add Edge</button>					
+                    <button type="button" class="btn btn-xs btn-danger btn-block" id="remove">
+                        <span class="glyphicon glyphicon-minus"></span>
+                        Remove 
+                    </button>                    
+                </div>
+            </div>
+            <div class="sideMenuBox" id="cpuBarBox">
+                <div class="sideMenuHead"><span class="glyphicon glyphicon-menu-down sideMenuCollapse">&nbsp;</span>CPU status:</div>				
+                <div class="sideMenuBody">
+                    <div id="cpuBar" style="height: 350px;"></div>          
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade addNodePopup" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Node options</h4>
+                    </div>
+                    <div class="modal-body">	
+                        <div class="form-group">									
+                            <div class="btn-group" data-toggle="buttons">									
+                                <label class="btn btn-warning btn-sm">
+                                    <input type="radio" class="chooseNode" name="chooseNode" data-type="switch"> Switch
+                                </label>								
+                                <label class="btn btn-warning btn-sm">
+                                    <input type="radio" class="chooseNode" name="chooseNode" data-type="host"> Host
+                                </label>
+                                <label class="btn btn-warning btn-sm">
+                                    <input type="radio" class="chooseNode" name="chooseNode" data-type="server"> Server
+                                </label>
+                                <label class="btn btn-warning btn-sm">
+                                    <input type="radio" class="chooseNode" name="chooseNode" data-type="controller"> Ctrl
+                                </label>
+                                <label class="btn btn-warning btn-sm">
+                                    <input type="radio" class="chooseNode" name="chooseNode" data-type="hypervisor"> HV
+                                </label>																			
+                            </div>
+                        </div>						
+                        <div class="form-group">
+                            <label class="control-label">Attributes:</label>
+                            <div class="checkbox">
+                                <label><input type="checkbox" id="attrControlPlane">Control plane</label>
+                            </div>   
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Label:</label>
+                            <input type="text" class="form-control" id="nodeLabel">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Entry point:</label>
+                            <select class="form-control" id="selectEntryPoint" disabled>
+                                
+                           </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" id="addNodeTenant">Add</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </body>
+
+    <div class="alert alert-danger fade in" id="jsErrorBox">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>Error!</strong> <pre id="jsError"></pre>
+    </div>
+
+</html>

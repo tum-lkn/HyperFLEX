@@ -1,0 +1,197 @@
+body, html {
+    height: 100%;
+}
+
+hr {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+#logo {
+    position:absolute;
+    top:20px;
+    left: 20px;    
+    filter: url(filters.svg#grayscale); /* Firefox 3.5+ */
+    filter: gray; /* IE6-9 */
+    -webkit-filter: grayscale(1); /* Google Chrome & Safari 6+ */
+    opacity: 0.3;
+    z-index: 2;
+}
+
+#logo:hover
+{
+    filter: none;
+    -webkit-filter: none;
+    opacity: 1;
+}
+
+#container {
+    height: 100%;
+    width: 88%;
+    /* background-color: #1b2024; */
+}
+
+textarea#dump {
+    margin-top: 5px;
+    width: 100%;
+    height: 100px;
+}
+
+#editContainer {
+    padding: 5px;	
+}
+
+/* Side Menu */
+#sideMenu {
+    position: fixed;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 12%;
+    min-width: 232px;
+    font-size: 17px;
+    border-left: 1px solid #ccc;
+    overflow: hidden;
+    background-color: #fff;
+
+}
+.sideMenuBox {	
+}
+#sideMenu .sideMenuHead {
+    padding: 10px 5px;
+    font-size: 17px;
+    font-weight: 700;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background: #ffffff; /* Old browsers */
+    background: -moz-linear-gradient(top, #ffffff 0%, #f6f6f6 47%, #ededed 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(47%,#f6f6f6), color-stop(100%,#ededed)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* W3C */
+}
+.sideMenuCollapse {
+    cursor: pointer;
+}
+.sideMenuBody {
+    padding: 5px 5px;    
+    overflow: hidden;
+}
+.sideMenuBody > div {
+    margin-bottom: 5px;
+}
+input.inputBW {
+    width: 50%;
+}
+#infoNodePortTpls{
+    visibility: hidden;
+}
+
+.vsdnLabel {
+    margin-bottom: 0px;
+    display: inline;
+    padding: .2em .6em .3em;
+    margin-left: 3px;
+    font-size:15px;
+    font-weight: 700;
+    line-height: 1;
+    color: #333;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+    cursor: pointer;
+}
+
+.vsdnCheckbox,.vsdnAllCheckbox {
+    vertical-align: bottom;
+}
+.vsdnRow {
+    margin-bottom: 3px;
+}
+.noVSDNSDummy {
+    font-style: italic;
+    display: block;
+}
+/* vSDN Parameter Box */
+#paramBox {	
+
+}
+.paramLabel {
+    font-weight: 700;
+    width: 100%;
+}
+#paramCtrlIP {
+    width: 150px;
+}
+#paramCtrlPort {
+    width: 50px;
+}
+/* Node/Edge Info Box */
+#infoBoxNode,#infoBoxEdge {		
+}
+
+.infoLabel {
+    font-weight: 700;
+    width: 30%;
+}
+#infoIcon {
+    width: 32px;
+    height: 32px;
+}
+#infoNodePortTpls {
+    width: 100%;
+    border: 1px solid #aaa;	
+    margin-bottom: 5px;
+    padding: 5px;
+}
+
+.nwplug {
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
+}
+.nwplug-on {
+    opacity: 1;
+}
+.nwplug-off {
+    opacity: 0.3;
+}
+
+
+/* Login Popup */
+
+.loginPopup .input-group {
+    margin-bottom: 20px;
+}
+
+
+/* Error box */
+
+#jsErrorBox {
+    position:absolute;
+    left:0;
+    top: 10px;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top: 5px;
+    width: 50%;
+    height: 100px;
+    box-shadow: 5px 5px 10px 0px rgba(122,122,122,1);
+    visibility: hidden;
+
+}
+
+/* Hide the canvasjs credits */
+a.canvasjs-chart-credit {
+    visibility: hidden;
+    height: 0px;
+    width: 0px;
+}
+
+/* Button */
+.btn {
+    font-size: 15px;
+}
