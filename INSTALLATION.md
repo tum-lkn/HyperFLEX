@@ -118,7 +118,7 @@ sudo pip install werkzeug
 
 Also get HyperFLEX from github.
 
-Management switch is providing interfaces to controllers, hence, it needs a few internal interfaces. The VM should contain 7 adapters, where Adapter 1 & Adapter 7 are configured as bridged, while the rest (Adapter 2-6) should be internal and they should be named as Adapter 2 - 'ctrl-sw-1'.
+Management switch is providing interfaces to controllers, hence, it needs a few internal interfaces. The VM should contain 7 adapters, where Adapter 1 & Adapter 7 are configured as bridged, while the rest (Adapter 2-6) should be internal and they should be named as Adapter 2 - 'ctrl-sw-1', Adapter 3 - 'ctrl-sw-2'.
 
 Networking configuration (`gedit /etc/network/interfaces`) should look like:
 ```
@@ -132,7 +132,7 @@ iface eth1 inet manual
 up ifconfig eth1 up
 ```
 
-The rest should be the same as eth1.
+Other interfaces should be configured the same as eth1.
 
 After installation and configuration of interfaces it is possible to run the switch as:
 ```
