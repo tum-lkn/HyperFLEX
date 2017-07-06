@@ -109,12 +109,37 @@ Configure it with a static IP of 10.162.149.125/16 after completing installation
 
 ### Management switch VM-4
 
-To avoid configuring interfaces, download the VM image from [dropbox](https://dropbox.com) and import it in the virtualbox.
+Management switch is providing control plane topology. Furthermore, to provide control to the HyperFLEX one listening agent in necessary. Hence, following dependencies are needed:
+```
+mininet
+sudo pip install json-rpc
+sudo pip install werkzeug
+```
 
-To run the switch, boot up the VM and run from /home/base/:
+Also get HyperFLEX from github.
 
-`sudo ./switch_rules`
+Management switch is providing interfaces to controllers, hence, it needs a few internal interfaces. The VM should contain 7 adapters, where Adapter 1 & Adapter 7 are configured as bridged, while the rest (Adapter 2-6) should be internal and they should be named as Adapter 2 - 'ctrl-sw-1'.
 
+Networking configuration (`gedit /etc/network/interfaces`) should look like:
+```
+auto eth0
+iface eth0 inet static
+address 10.162.149.240
+netmask 255.255.254.0
+
+auto eth1
+iface eth1 inet manual
+up ifconfig eth1 up
+```
+
+The rest should be the same as eth1.
+
+After installation and configuration of interfaces it is possible to run the switch as:
+```
+sudo python HyperFLEX/topologies/controltopo.py
+python -m hyperflexcore.management.rpcserver
+sudo ./HyperFLEX/topologies/init_switch_rules 
+```
 
 ### SDN Controllers
 

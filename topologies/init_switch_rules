@@ -1,0 +1,23 @@
+#!/bin/bash
+
+sudo pkill controller
+
+sudo ovs-ofctl del-flows s1
+sudo ovs-ofctl del-flows s3
+sudo ovs-ofctl del-flows s4
+
+sudo ovs-ofctl add-flow s1 priority=65535,idle_timeout=0,in_port=1,action=output:2
+sudo ovs-ofctl add-flow s1 priority=65535,idle_timeout=0,in_port=2,action=output:1
+
+
+sudo ovs-ofctl add-flow s4 priority=65535,idle_timeout=0,in_port=1,action=output:2
+sudo ovs-ofctl add-flow s4 priority=65535,idle_timeout=0,in_port=2,action=output:1
+
+sudo ovs-ofctl add-flow s3 priority=65535,idle_timeout=0,in_port=1,action=output:6
+sudo ovs-ofctl add-flow s3 priority=65535,idle_timeout=0,in_port=3,action=output:6
+
+
+sudo ovs-ofctl add-flow s3 priority=65535,idle_timeout=0,in_port=6,dl_type=0x0800,nw_dst=192.168.50.10,action=output:3
+sudo ovs-ofctl add-flow s3 arp,nw_dst=192.168.50.10,priority=65535,idle_timeout=0,in_port=6,action=output:3
+sudo ovs-ofctl add-flow s3 priority=65535,idle_timeout=0,in_port=6,dl_type=0x0800,nw_dst=192.168.75.10,action=output:1
+sudo ovs-ofctl add-flow s3 arp,nw_dst=192.168.75.10,priority=65535,idle_timeout=0,in_port=6,action=output:1
