@@ -65,7 +65,7 @@ HyperFLEX framework can be run as:
 
 ```
 cd HyperFLEX/hyperflexcomplete/hyperflexcore
-python -m hypeflexcore.guicontroller.guicontroller
+python -m hyperflexcore.guicontroller.guicontroller
 ```
 
 ### Hypervisor Setup - VM2
