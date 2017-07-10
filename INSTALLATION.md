@@ -99,7 +99,7 @@ Install [mininet](http://mininet.org/) and download topologies/datatopo.py.
 
 Add to mininet VM - VM3 one internal interface (this interface is used for a connection to the hypervisor) 'mn-hv' and set up a static ip 192.168.125.21/24 and run the topo as:
 ```
-sudo -mn --controller=remote,ip=192.168.125.20,port=6633 --custom HyperFLEX/topologies/datatopo.py --topo datatopo
+sudo mn --controller=remote,ip=192.168.125.20,port=6633 --custom HyperFLEX/topologies/datatopo.py --topo datatopo
 ```  
 
 
