@@ -80,15 +80,32 @@ You will also need to install [nanomsg](https://github.com/nanomsg/nanomsg) from
 
 As well as [flowvisor](https://github.com/OPENNETWORKINGLAB/flowvisor/wiki/Installation-from-Binary) and pull [HyperFLEX](https://github.com/tum-lkn/HyperFLEX).
 
-Add 3 network interfaces to VM, one internal interface 'mn-hv' to the mininet with ip 192.168.125.20/24 and two bridged, one for control plane traffic and one for management as:
+When adding bridged interfaces to hypervisor VM (VM2), set the **promiscuous mode** to allow.
 
-* eth2 (bridging eth0) with static ip 10.162.149.241/24
-* eth3 (bridging eth0) with static
-    * address 192.168.200.100
-    * netmask 255.255.254.0
-    * up route add -net 192.168.50.0/24 dev eth3
-    * up route add -net 192.168.75.0/24 dev eth3  
+Add 3 network interfaces to hypervisor VM:
+* One internal named 'mn-hv' for connection with mininet
+* Two bridged for connection with control plane traffic and management.
 
+Add following code to /etc/network/interfaces
+```
+#mininet 'mn-hv'
+auto eth1
+iface eth1 inet static
+    address 192.168.125.20
+    netmask 255.255.255.0
+#bridged
+auto eth2
+iface eth2 inet static
+    address 10.162.149.241
+    netmask 255.255.255.0
+#bridged
+auto eth3
+iface eth3 inet static
+    address 192.168.200.100
+    netmask 255.255.254.0
+    up route add -net 192.168.50.0/24 dev eth3
+    up route add -net 192.168.75.0/24 dev eth3  
+```
 Run flowvisor (i.e. `sudo -u flowvisor flowvisor`), and run the monitoring agent:
 ```
 python HyperFLEX/hyperflexcomplete/hyperflexcore/hyperflexcore/data/livedata.py --sufix=1
@@ -118,7 +135,9 @@ sudo pip install werkzeug
 
 Also get HyperFLEX from github.
 
-Management switch is providing interfaces to controllers, hence, it needs a few internal interfaces. The VM should contain 7 adapters, where Adapter 1 & Adapter 7 are configured as bridged, while the rest (Adapter 2-6) should be internal and they should be named as Adapter 2 - 'ctrl-sw-1', Adapter 3 - 'ctrl-sw-2'.
+Management switch is providing interfaces to controllers, hence, it needs a few internal interfaces. The VM should contain 7 adapters, where Adapter 1 & Adapter 7 are configured as bridged, while the rest (Adapter 2-6) should be internal and they should be named as Adapter 2 - 'ctrl-sw-1', Adapter 3 - 'ctrl-sw-2', other should follow same naming.
+
+When adding interfaces to management switch (VM-4), set the **promiscuous mode** to allow.
 
 Networking configuration (`gedit /etc/network/interfaces`) should look like:
 ```
@@ -141,20 +160,24 @@ python -m hyperflexcore.management.rpcserver
 sudo ./HyperFLEX/topologies/init_switch_rules 
 ```
 
-### SDN Controllers
-
-The SDN controllers should be placed in VMs with static IPs and internal network adapter configured as one of the options:
-1) Internal network 'ctrl-sw1' with static IP 192.168.75.10/24 
-2) Internal network 'ctrl-sw4' with static IP 192.168.50.10/24
-
-
-
 ### GUI setup
 
-Pull [HyperFLEX GUI](https://github.com/tum-lkn/HyperFLEX/).
+Pull [HyperFLEX GUI](https://github.com/tum-lkn/HyperFLEX/) to the PC-2.
 
 To open **Tenant View GUI** open `HyperFLEX/hyperflexcomplete/hyperflexgui/html/tenant/tenant_gui.html` and use username 'tenant1' and password 'tenant'.
 
 To open **HyperFLEX Core GUI** open `HyperFLEX/hyperflexcomplete/hyperflexgui/html/hyperflex/hypervisor_gui.html`.
 
 To open **Monitoring GUI** open `HyperFLEX/hyperflexcomplete/hyperflexgui/html/monitoring/index.html`.
+
+### SDN Controllers
+
+The SDN controllers should be placed in arbitrary VMs on PC-2 with static IPs and internal network adapter configured as one of the options:
+1) Internal network 'ctrl-sw1' with static IP 192.168.75.10/24 
+2) Internal network 'ctrl-sw4' with static IP 192.168.50.10/24.
+
+Any controller can be used, furthermore, the **Perfbench tool** (control plane packet generator) complements HyperFLEX nicely and will be **soon realeased**.
+
+### Final Setup
+
+After installing and configuring everything, connect the two PCs together and assign to PC-1 IP '10.162.149.123/16' and to PC-2 IP '10.162.149.125/16', furthermore, run all VMs and programs as explained at the end of each installation paragraph. When you are finished, headover to [Tutorial](https://github.com/tum-lkn/HyperFLEX/blob/master/TUTORIAL.md).  

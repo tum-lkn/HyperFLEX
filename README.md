@@ -12,7 +12,7 @@ HyperFLEX framework relies on external hypervisor (e.g. flowvisor), and addition
 
 * **Management System** - Every tenant is able to request a virtual network with specific network parameters, while the infrastructure provider can overlook the whole system.
 * **Monitoring Agents** - Most important resources, such as Hypervisor CPU, control plane delay and loss are monitored at all times. 
-* **Software & Hardware CPU Isolation of Control Plane** - Tenant is allowed to use only the amount of resources he requested.
+* **Software & Network CPU Isolation of Control Plane** - Tenant is allowed to use only the amount of resources he requested.
 * **Admission Control** - If there are no available resources, the request for a new virtual network will be rejected.
 
 Configuration of the example set-up and installation of HyperFLEX can be found in the file [INSTALLATION](https://github.com/tum-lkn/HyperFLEX/blob/master/INSTALLATION.md), and tutorial for using HyperFLEX and HyperFLEX GUI can be found in the file [TUTORIAL](https://github.com/tum-lkn/HyperFLEX/blob/master/TUTORIAL.md). List of version and details about them are stored in [RELEASE-NOTES](https://github.com/tum-lkn/HyperFLEX/blob/master/RELEASE-NOTES.txt).
